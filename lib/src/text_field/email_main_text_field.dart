@@ -43,6 +43,7 @@ class _EmailMainTextField extends MainTextField {
     required super.fillColor,
     required super.titleStyle,
     required super.showPrefixIcon,
+    required super.iconColor,
   });
 
   @override
@@ -76,15 +77,13 @@ class _EmailMainTextFieldState extends State<_EmailMainTextField> {
       textCapitalization: widget.textCapitalization,
       textAlignVertical: widget.textAlignVertical,
       decoration: widget.decoration,
-      prefixIcon: widget.prefixIcon ??
-          (widget.showPrefixIcon
-              ? const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: PrefixIconWidget(
-                    assetPath: AppImages.sms,
-                  ),
-                )
-              : null),
+      prefixIcon:
+          widget.prefixIcon ??
+          PrefixIconWidget(
+            assetPath: AppImages.sms,
+            color: widget.iconColor,
+            isShow: widget.showPrefixIcon,
+          ),
       suffixIcon: widget.suffixIcon,
       contentPadding: widget.contentPadding,
       labelText: widget.labelText,

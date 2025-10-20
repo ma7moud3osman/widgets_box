@@ -39,6 +39,7 @@ class _ConfirmPasswordMainTextField extends MainTextField {
     required super.showPrefixIcon,
     required super.cursorHeight,
     required super.titleStyle,
+    required super.iconColor,
   });
 
   @override
@@ -87,12 +88,11 @@ class _ConfirmPasswordMainTextFieldState
           keyboardType: TextInputType.visiblePassword,
           prefixIcon:
               widget.prefixIcon ??
-              (widget.showPrefixIcon
-                  ? const Padding(
-                      padding: EdgeInsets.all(10),
-                      child: PrefixIconWidget(assetPath: AppImages.lock),
-                    )
-                  : null),
+              PrefixIconWidget(
+                assetPath: AppImages.lock,
+                color: widget.iconColor,
+                isShow: widget.showPrefixIcon,
+              ),
           suffixIcon:
               widget.suffixIcon ??
               IconButton(
@@ -101,6 +101,8 @@ class _ConfirmPasswordMainTextFieldState
                 }),
                 icon: PrefixIconWidget(
                   assetPath: showPassword ? AppImages.eyeSlash : AppImages.eye,
+                  color: widget.iconColor,
+                  isShow: true,
                 ),
               ),
           hintText:
@@ -112,6 +114,7 @@ class _ConfirmPasswordMainTextFieldState
           labelText: widget.labelText,
           filled: widget.filled,
           fillColor: widget.fillColor,
+
           contentPadding: widget.contentPadding,
           obscureText: !showPassword,
           obscuringCharacter: '*',

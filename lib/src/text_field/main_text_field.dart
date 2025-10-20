@@ -131,6 +131,7 @@ class MainTextField extends StatefulWidget {
   final bool? obscureText;
   final String? obscuringCharacter;
   final TextDirection? textDirection;
+  final Color? iconColor;
 
   const MainTextField({
     this.filled,
@@ -178,6 +179,7 @@ class MainTextField extends StatefulWidget {
     this.textDirection,
     this.titleStyle,
     this.showPrefixIcon = false,
+    this.iconColor,
   });
 
   factory MainTextField.email({
@@ -218,6 +220,7 @@ class MainTextField extends StatefulWidget {
     Color? fillColor,
     TextStyle? titleStyle,
     TextDirection? textDirection,
+    Color? iconColor,
   }) {
     return _EmailMainTextField(
       showAsterisk: false,
@@ -261,6 +264,7 @@ class MainTextField extends StatefulWidget {
       textDirection: textDirection,
       filled: filled,
       fillColor: fillColor,
+      iconColor: iconColor,
     );
   }
 
@@ -304,6 +308,7 @@ class MainTextField extends StatefulWidget {
     Widget? suffixIcon,
     String? labelText,
     String? hintText,
+    Color? iconColor,
   }) {
     return _PasswordMainTextField(
       maxWidth: maxWidth,
@@ -343,6 +348,7 @@ class MainTextField extends StatefulWidget {
       hintText: hintText,
       isDense: isDense,
       cursorHeight: cursorHeight,
+      iconColor: iconColor,
     );
   }
 
@@ -383,6 +389,7 @@ class MainTextField extends StatefulWidget {
     Widget? suffixIcon,
     String? labelText,
     String? hintText,
+    Color? iconColor,
   }) {
     return _ConfirmPasswordMainTextField(
       maxWidth: maxWidth,
@@ -421,6 +428,7 @@ class MainTextField extends StatefulWidget {
       isEnable: isEnable,
       cursorHeight: cursorHeight,
       titleStyle: titleStyle,
+      iconColor: iconColor,
     );
   }
 
@@ -459,6 +467,8 @@ class MainTextField extends StatefulWidget {
     Widget? suffixIcon,
     String? labelText,
     String? hintText,
+    Color? iconColor,
+    bool showPrefixIcon = false,
   }) {
     return _NumberMainTextField(
       maxWidth: maxWidth,
@@ -494,6 +504,8 @@ class MainTextField extends StatefulWidget {
       isEnable: isEnable,
       cursorHeight: cursorHeight,
       titleStyle: titleStyle,
+      iconColor: iconColor,
+      showPrefixIcon: showPrefixIcon,
     );
   }
 

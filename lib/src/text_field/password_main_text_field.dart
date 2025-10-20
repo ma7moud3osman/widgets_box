@@ -36,6 +36,7 @@ class _PasswordMainTextField extends MainTextField {
     required super.hideAsterisk,
     required super.cursorHeight,
     required super.showPrefixIcon,
+    required super.iconColor,
   });
 
   @override
@@ -79,9 +80,10 @@ class _PasswordMainTextFieldState extends State<_PasswordMainTextField> {
       hintText: widget.hintText ?? SmartLocalizePlaceholder.enterPassword,
       prefixIcon:
           widget.prefixIcon ??
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: PrefixIconWidget(assetPath: AppImages.lock),
+          PrefixIconWidget(
+            assetPath: AppImages.lock,
+            color: widget.iconColor,
+            isShow: widget.showPrefixIcon,
           ),
       suffixIcon:
           widget.suffixIcon ??
@@ -91,6 +93,8 @@ class _PasswordMainTextFieldState extends State<_PasswordMainTextField> {
             }),
             icon: PrefixIconWidget(
               assetPath: showPassword ? AppImages.eyeSlash : AppImages.eye,
+              color: widget.iconColor,
+              isShow: true,
             ),
           ),
       contentPadding: widget.contentPadding,

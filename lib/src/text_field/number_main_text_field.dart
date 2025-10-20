@@ -35,6 +35,8 @@ class _NumberMainTextField extends MainTextField {
     required super.hideAsterisk,
     required super.cursorHeight,
     required super.titleStyle,
+    required super.iconColor,
+    required super.showPrefixIcon,
   });
 
   @override
@@ -72,12 +74,12 @@ class _NumberMainTextFieldState extends State<_NumberMainTextField> {
       decoration: widget.decoration,
       filled: widget.filled,
       fillColor: widget.fillColor,
-      prefixIcon: widget.prefixIcon ??
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: PrefixIconWidget(
-              assetPath: AppImages.calculator,
-            ),
+      prefixIcon:
+          widget.prefixIcon ??
+          PrefixIconWidget(
+            assetPath: AppImages.calculator,
+            color: widget.iconColor,
+            isShow: widget.showPrefixIcon,
           ),
       suffixIcon: widget.suffixIcon,
       contentPadding: widget.contentPadding,

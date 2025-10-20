@@ -1,3 +1,7 @@
+## 0.0.5
+
+* add icon customization options to text fields
+
 ## 0.0.4
 
 * update pubspec for version 0.0.4

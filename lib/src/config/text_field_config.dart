@@ -6,6 +6,10 @@ class TextFieldConfig {
   final double? radius;
   final EdgeInsetsGeometry? contentPadding;
   final double? cursorHeight;
+  final Color? iconColor;
+  final double? iconPadding;
+  final double? iconSize;
+  final bool? showIcon;
 
   const TextFieldConfig({
     this.width,
@@ -13,5 +17,9 @@ class TextFieldConfig {
     this.radius,
     this.contentPadding,
     this.cursorHeight,
+    this.iconColor,
+    this.iconPadding,
+    this.iconSize,
+    this.showIcon,
   });
 }
