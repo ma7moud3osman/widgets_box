@@ -51,6 +51,33 @@ class MyHomePage extends StatelessWidget {
         title: Text(SmartLocalize.home),
       ),
       body: SmartScreen(
+        skeletonWidget: ListView(
+          padding: EdgeInsets.all(16.0),
+          children: [
+            Text(SmartLocalize.goodAfternoon),
+            MainButton.icon(
+              label: 'ok',
+              iconType: IconType.icon,
+              icon: Icons.add,
+              onPressed: () {},
+            ),
+            MainTextField.password(
+              title: SmartLocalize.email,
+
+              onChanged: (value) => log('Email changed: $value'),
+            ),
+
+            SizedBox(height: 120),
+            SmartUserImage(displayName: 'Mahmoud', photo: ''),
+            DefaultProfileImage(displayName: 'Mahmoud'),
+            SmartWelcomeWidget(
+              userImage: '',
+              dateFormat: DateFormats.weekDay,
+              firstName: 'Mahmoud',
+              onTap: () {},
+            ),
+          ],
+        ),
         builder: (context) {
           return ListView(
             padding: const EdgeInsets.all(16.0),

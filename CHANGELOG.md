@@ -1,6 +1,11 @@
-## 0.0.6
+## 0.0.7
 
+* add skeleton widget
+* add empty widget
+
+## 0.0.6
 * fix images
+
 ## 0.0.5
 
 * add icon customization options to text fields

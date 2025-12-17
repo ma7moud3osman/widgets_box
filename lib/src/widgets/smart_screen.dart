@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../widgets_box.dart';
 
@@ -21,10 +22,16 @@ class SmartScreen extends StatelessWidget {
   /// A custom widget to display when the data is loading. If not provided, a default loading indicator will be used.
   final Widget? loadingWidget;
 
+  /// A custom widget to display when the data is empty. If not provided, a default empty screen will be used.
+  final EmptyType emptyWidgetType;
+
   /// An optional message to display in the empty state widget.
   final String? message;
   final Color? refreshColor;
   final Color? refreshBackgroundColor;
+  final Widget? skeletonWidget;
+  final Color? skeletonColor;
+  final double textBorderRadius;
 
   const SmartScreen({
     super.key,
@@ -37,6 +44,10 @@ class SmartScreen extends StatelessWidget {
     this.refreshColor,
     this.refreshBackgroundColor,
     this.loadingWidget,
+    this.emptyWidgetType = EmptyType.image,
+    this.skeletonWidget,
+    this.skeletonColor,
+    this.textBorderRadius = 12,
   });
 
   @override
@@ -52,6 +63,10 @@ class SmartScreen extends StatelessWidget {
       refreshColor: refreshColor,
       refreshBackgroundColor: Theme.of(context).primaryColor,
       loadingWidget: loadingWidget,
+      skeletonWidget: skeletonWidget,
+      skeletonContainerColor: skeletonColor,
+      textBorderRadius: textBorderRadius,
+      emptyWidgetType: emptyWidgetType,
     );
   }
 }
@@ -73,14 +88,28 @@ Widget getWidget({
   required Color? refreshColor,
   required Color? refreshBackgroundColor,
   required Future<void> Function()? onRefresh,
+  required Widget? skeletonWidget,
+  required Color? skeletonContainerColor,
+  required double textBorderRadius,
+  required EmptyType emptyWidgetType,
 }) {
   if (isLoading) {
     if (loadingWidget != null) return loadingWidget;
     // Displays a loading widget when data is being fetched.
-    return const SmartLoadingWidget();
+    return skeletonWidget != null
+        ? Skeletonizer(
+            enabled: isLoading,
+            containersColor: skeletonContainerColor,
+            textBoneBorderRadius: TextBoneBorderRadius(
+              BorderRadius.circular(textBorderRadius),
+            ),
+            child: skeletonWidget,
+          )
+        : const SmartLoadingWidget();
   } else if (isEmpty) {
     // Displays an empty state widget if there is no data.
-    return emptyWidget ?? SmartEmptyWidget(message: message);
+    return emptyWidget ??
+        SmartEmptyWidget(title: message, type: emptyWidgetType);
   } else {
     // Displays the main content wrapped with a pull-to-refresh functionality.
     return RefreshIndicator(

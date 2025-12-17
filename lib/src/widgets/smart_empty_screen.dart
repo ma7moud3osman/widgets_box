@@ -7,7 +7,7 @@ enum EmptyType {
   /// Custom empty state that allows using a custom widget.
   custom,
 
-  /// Empty state that displays an image (SVG) with a message.
+  /// Empty state that displays an image with a message.
   image,
 
   /// Empty state that displays only a text message.
@@ -17,10 +17,13 @@ enum EmptyType {
 class SmartEmptyWidget extends StatelessWidget {
   /// The message to display in the empty state. Defaults to 'no_data_found' if not provided.
   final String? title;
-  final String? message;
+  final String? subtitle;
 
-  /// The file path to the image (SVG) to be displayed when using [EmptyType.image].
+  /// The file path to the image to be displayed when using [EmptyType.image].
   final String? emptyImage;
+
+  /// The icon to be displayed when using [EmptyType.image].
+  final IconData? icon;
 
   /// A custom widget to display when using [EmptyType.custom].
   final Widget? child;
@@ -42,11 +45,12 @@ class SmartEmptyWidget extends StatelessWidget {
 
   const SmartEmptyWidget({
     super.key,
-    this.message,
+    this.subtitle,
     this.title,
     this.child,
     this.padding,
     this.emptyImage,
+    this.icon,
     this.type = EmptyType.text,
     this.messageStyle,
     this.titleStyle,
@@ -57,7 +61,7 @@ class SmartEmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (type) {
       case EmptyType.image:
-        // Displays an image (SVG) with a message when using the EmptyType.image.
+        // Displays an image with a message when using the EmptyType.image.
         return Padding(
           padding: padding ?? const EdgeInsets.all(12),
           child: Center(
@@ -65,18 +69,23 @@ class SmartEmptyWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(emptyImage!),
+                if (emptyImage != null)
+                  emptyImage!.split('.').last == 'svg'
+                      ? SvgPicture.asset(emptyImage!)
+                      : Image.asset(emptyImage!)
+                else
+                  Icon(icon ?? Icons.error_outline_outlined),
                 SizedBox(height: 32),
-                if (title != null)
-                  Text(
-                    title ?? SmartLocalize.noDataFound,
-                    textAlign: TextAlign.center,
-                    style: titleStyle ?? Theme.of(context).textTheme.labelLarge,
-                  ),
-                if (message != null) ...[
+
+                Text(
+                  title ?? SmartLocalize.noDataFound,
+                  textAlign: TextAlign.center,
+                  style: titleStyle ?? Theme.of(context).textTheme.labelLarge,
+                ),
+                if (subtitle != null) ...[
                   SizedBox(height: 12),
                   Text(
-                    message ?? SmartLocalize.noDataFound,
+                    subtitle ?? SmartLocalize.noDataFound,
                     style:
                         messageStyle ?? Theme.of(context).textTheme.bodySmall,
                   ),
@@ -93,7 +102,7 @@ class SmartEmptyWidget extends StatelessWidget {
         // Displays only a text message when using the EmptyType.text.
         return Center(
           child: Text(
-            message ?? SmartLocalize.noDataFound,
+            title ?? SmartLocalize.noDataFound,
             style: messageStyle ?? Theme.of(context).textTheme.bodyMedium,
           ),
         );
@@ -101,13 +110,7 @@ class SmartEmptyWidget extends StatelessWidget {
         // Displays a custom widget provided by the user when using the EmptyType.custom.
         return Padding(
           padding: padding ?? const EdgeInsets.all(12),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [child!],
-            ),
-          ),
+          child: Center(child: child!),
         );
     }
   }
