@@ -37,6 +37,11 @@ class _NumberMainTextField extends MainTextField {
     required super.titleStyle,
     required super.iconColor,
     required super.showPrefixIcon,
+    required super.minLines,
+    required super.maxLines,
+    required super.maxLength,
+    required super.textDirection,
+    required super.hintTextDirection,
   });
 
   @override
@@ -91,6 +96,11 @@ class _NumberMainTextFieldState extends State<_NumberMainTextField> {
       isEnable: widget.isEnable,
       hideAsterisk: widget.hideAsterisk,
       cursorHeight: widget.cursorHeight,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      maxLength: widget.maxLength,
+      textDirection: widget.textDirection,
+      hintTextDirection: widget.hintTextDirection,
     );
   }
 }

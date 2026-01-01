@@ -21,6 +21,8 @@ The `widgets_box` A Flutter package for efficient UI state management, handling 
     - [SmartScreen](#smartscreen)
     - [SmartTagWidget](#smarttagwidget)
     - [SmartStatusWidget](#smartstatuswidget)
+    - [MainButton](#mainbutton)
+    - [MainTextField](#maintextfield)
 - [Functions Usage](#functions-usage)
     - [ShowToast](#showtoast)
     - [HexColor](#hexcolor)
@@ -164,6 +166,56 @@ Here is an example demonstrating how to use these parameters in the `MainScreen`
             ),
         ),
 ),
+```
+
+### MainButton
+
+```dart
+// Standard MainButton
+MainButton(
+  label: 'Click Me',
+  onPressed: () {},
+)
+
+// MainButton with Icon
+MainButton.icon(
+  label: 'Next',
+  icon: Icons.arrow_forward,
+  iconType: IconType.icon,
+  isIconEnd: true, // Icon appears after the label
+  onPressed: () {},
+)
+```
+
+### MainTextField
+
+```dart
+// Standard TextField
+MainTextField(
+  title: 'Username',
+  hintText: 'Enter your username',
+  controller: controller,
+)
+
+// Password TextField
+MainTextField.password(
+  title: 'Password',
+  hintText: 'Enter your password',
+  controller: passwordController,
+)
+
+// Email TextField
+MainTextField.email(
+  title: 'Email',
+  controller: emailController,
+)
+
+// Phone TextField
+MainTextField.phone(
+  title: 'Phone Number',
+  initialCountryCode: '+20',
+  onChangedCountryCode: (code) {},
+)
 ```
 
 

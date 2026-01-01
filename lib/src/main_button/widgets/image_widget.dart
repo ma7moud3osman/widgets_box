@@ -23,10 +23,10 @@ class ImageWidget extends StatelessWidget {
     this.iconColor,
     required this.imageSize,
   }) : assert(
-          (iconType != IconType.icon && imagePath != null) ||
-              (iconType == IconType.icon && icon != null),
-          'Either imagePath or icon must be provided',
-        );
+         (iconType != IconType.icon && imagePath != null) ||
+             (iconType == IconType.icon && icon != null),
+         'Either imagePath or icon must be provided',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +46,7 @@ class ImageWidget extends StatelessWidget {
           size: imageSize,
         );
       case IconType.icon:
-        return IconWidget(
-          icon: icon!,
-          size: imageSize,
-          iconColor: iconColor,
-        );
+        return IconWidget(icon: icon!, size: imageSize, iconColor: iconColor);
     }
   }
 }

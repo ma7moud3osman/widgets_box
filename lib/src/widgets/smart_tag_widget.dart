@@ -24,13 +24,15 @@ class SmartTagWidget extends StatelessWidget {
         color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
-      child: child ??
+      child:
+          child ??
           Text(
             text!,
-            style: style ??
+            style:
+                style ??
                 Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: textColor ?? Theme.of(context).primaryColor,
-                    ),
+                  color: textColor ?? Theme.of(context).primaryColor,
+                ),
           ),
     );
   }

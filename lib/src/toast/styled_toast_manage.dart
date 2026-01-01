@@ -55,9 +55,7 @@ class ToastFuture {
   /// Dismiss toast overlay.
   ///
   /// [showAnim] Can be used to dismiss a toast with animation effect or not.
-  Future<void> dismiss({
-    bool showAnim = false,
-  }) async {
+  Future<void> dismiss({bool showAnim = false}) async {
     if (!_isShow) {
       return;
     }
@@ -92,9 +90,7 @@ class ToastManager {
   Set<ToastFuture> toastSet = {};
 
   /// Dismiss all toast.
-  void dismissAll({
-    bool showAnim = false,
-  }) {
+  void dismissAll({bool showAnim = false}) {
     toastSet.toList().forEach((v) {
       v.dismiss(showAnim: showAnim);
     });

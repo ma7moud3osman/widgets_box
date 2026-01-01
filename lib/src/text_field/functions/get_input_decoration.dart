@@ -48,9 +48,10 @@ InputDecoration getInputDecoration({
           )
         : null,
     counterText: '',
-    floatingLabelStyle: floatingLabelStyle ??
-        Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.grey.shade800,
-            ),
+    floatingLabelStyle:
+        floatingLabelStyle ??
+        Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade800),
   );
 }

@@ -7,9 +7,9 @@ class ButtonConfig {
   final EdgeInsetsGeometry? contentPadding;
 
   const ButtonConfig({
-     this.width,
-     this.height,
-     this.radius,
-     this.contentPadding,
+    this.width,
+    this.height,
+    this.radius,
+    this.contentPadding,
   });
 }

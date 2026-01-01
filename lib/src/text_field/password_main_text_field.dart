@@ -37,6 +37,11 @@ class _PasswordMainTextField extends MainTextField {
     required super.cursorHeight,
     required super.showPrefixIcon,
     required super.iconColor,
+    required super.minLines,
+    required super.maxLines,
+    required super.maxLength,
+    required super.textDirection,
+    required super.hintTextDirection,
   });
 
   @override
@@ -82,8 +87,6 @@ class _PasswordMainTextFieldState extends State<_PasswordMainTextField> {
           widget.prefixIcon ??
           buildPrefixIcon(
             assetPath: 'packages/widgets_box/assets/images/lock.svg',
-
-            // assetPath: AppImages.lock,
             icon: Icons.lock,
             color: widget.iconColor,
             context: context,
@@ -114,7 +117,7 @@ class _PasswordMainTextFieldState extends State<_PasswordMainTextField> {
       minLines: widget.minLines,
       maxLines: widget.maxLines,
       maxLength: widget.maxLength,
-      showAsterisk: widget.showAsterisk,
+      hintTextDirection: widget.hintTextDirection,
       titleStyle: widget.titleStyle,
     );
   }

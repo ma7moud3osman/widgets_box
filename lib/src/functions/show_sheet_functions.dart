@@ -24,10 +24,7 @@ showBottomSheetWidget({
           ],
           const SizedBox(height: 16),
           if (title != null)
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
+            Text(title, style: Theme.of(context).textTheme.headlineLarge),
           if (subtitle != null)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -37,16 +34,12 @@ showBottomSheetWidget({
                 style: Theme.of(context).textTheme.labelLarge,
               ),
             ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: child,
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
         ],
       ),
     ),
@@ -83,12 +76,7 @@ void showBottomSheet(context) {
     builder: (context) {
       return DraggableScrollableSheet(
         snap: true,
-        snapSizes: const [
-          0.5,
-          0.6,
-          0.8,
-          0.9,
-        ],
+        snapSizes: const [0.5, 0.6, 0.8, 0.9],
         expand: false,
         maxChildSize: 0.9,
         minChildSize: 0.1,
@@ -97,18 +85,14 @@ void showBottomSheet(context) {
           return Container(
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(12),
-              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
             ),
             width: double.infinity,
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
-                  children: List.generate(
-                50,
-                (index) => const Text('Test'),
-              )),
+                children: List.generate(50, (index) => const Text('Test')),
+              ),
             ),
           );
         },

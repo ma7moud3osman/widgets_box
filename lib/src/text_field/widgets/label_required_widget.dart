@@ -19,17 +19,14 @@ class LabelRequiredWidget extends StatelessWidget {
             TextSpan(
               text: ' *',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                    height: .7,
-                    fontSize: 7,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+                height: .7,
+                fontSize: 7,
+              ),
             ),
         ],
       ),
-      style: TextStyle(
-        color: Colors.grey.shade800,
-        height: .7,
-      ),
+      style: TextStyle(color: Colors.grey.shade800, height: .7),
     );
   }
 }

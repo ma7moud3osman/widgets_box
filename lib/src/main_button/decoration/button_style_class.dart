@@ -38,9 +38,7 @@ class ButtonStyleClass extends ButtonStyle {
       minimumSize: WidgetStateProperty.all<Size>(
         Size(smallSize ? 60 : min(width, maxWidth), height),
       ),
-      maximumSize: WidgetStateProperty.all<Size>(
-        Size(maxWidth, height),
-      ),
+      maximumSize: WidgetStateProperty.all<Size>(Size(maxWidth, height)),
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
         (Set<WidgetState> states) =>
             states.contains(WidgetState.disabled) ? disableColor : background,

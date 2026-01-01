@@ -1,3 +1,9 @@
+## 0.0.8
+* Refactor `MainTextField` and its subclasses for parameter normalization.
+* Add `minLines`, `maxLines`, `maxLength`, `textDirection`, `hintTextDirection` to all text fields.
+* Add `isIconEnd` to `MainButton.icon` to support placing icon after (end of) the label.
+* Fix image ordering in `MainButton.icon` to respect text direction.
+
 ## 0.0.7
 
 * add skeleton widget

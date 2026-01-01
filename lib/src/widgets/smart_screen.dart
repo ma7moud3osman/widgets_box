@@ -3,9 +3,14 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../widgets_box.dart';
 
+enum LoadingType { skeleton, indicator }
+
 class SmartScreen extends StatelessWidget {
   /// Indicates whether the data is currently being loaded.
   final bool isLoading;
+
+  /// Indicates whether the data is currently being loaded.
+  final LoadingType loadingType;
 
   /// Indicates whether the data is empty.
   final bool isEmpty;
@@ -37,6 +42,7 @@ class SmartScreen extends StatelessWidget {
     super.key,
     required this.builder,
     this.isLoading = false,
+    this.loadingType = LoadingType.skeleton,
     this.isEmpty = false,
     this.message,
     this.emptyWidget,
@@ -54,6 +60,7 @@ class SmartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return getWidget(
       isLoading: isLoading,
+      loadingType: loadingType,
       isEmpty: isEmpty,
       builder: builder,
       message: message,
@@ -61,7 +68,7 @@ class SmartScreen extends StatelessWidget {
       onRefresh: onRefresh,
       context: context,
       refreshColor: refreshColor,
-      refreshBackgroundColor: Theme.of(context).primaryColor,
+      refreshBackgroundColor: refreshBackgroundColor,
       loadingWidget: loadingWidget,
       skeletonWidget: skeletonWidget,
       skeletonContainerColor: skeletonColor,
@@ -74,12 +81,13 @@ class SmartScreen extends StatelessWidget {
 /// A function that returns a widget based on the state of loading, empty content,
 /// or displaying data.
 ///
-/// - If [isLoading] is true, it returns a [SmartLoadingWidget].
+/// - If [isLoading] is true, it returns a [Skeletonizer] wrapping the [skeletonWidget] or [builder].
 /// - If [isEmpty] is true, it returns the [emptyWidget] if provided, or the default [SmartEmptyWidget].
 /// - Otherwise, it returns the main content wrapped with a [RefreshIndicator] for pull-to-refresh functionality.
 Widget getWidget({
   required BuildContext context,
   required bool isLoading,
+  required LoadingType loadingType,
   required bool isEmpty,
   required Widget Function(BuildContext context) builder,
   required Widget? emptyWidget,
@@ -95,17 +103,22 @@ Widget getWidget({
 }) {
   if (isLoading) {
     if (loadingWidget != null) return loadingWidget;
+
+    if (loadingType == LoadingType.indicator) {
+      return const SmartLoadingWidget();
+    }
+
     // Displays a loading widget when data is being fetched.
-    return skeletonWidget != null
-        ? Skeletonizer(
-            enabled: isLoading,
-            containersColor: skeletonContainerColor,
-            textBoneBorderRadius: TextBoneBorderRadius(
-              BorderRadius.circular(textBorderRadius),
-            ),
-            child: skeletonWidget,
-          )
-        : const SmartLoadingWidget();
+    return Skeletonizer(
+      enabled: isLoading,
+      containersColor: skeletonContainerColor,
+      textBoneBorderRadius: TextBoneBorderRadius(
+        BorderRadius.circular(textBorderRadius),
+      ),
+      child: skeletonWidget != null
+          ? Builder(builder: (context) => skeletonWidget)
+          : builder(context),
+    );
   } else if (isEmpty) {
     // Displays an empty state widget if there is no data.
     return emptyWidget ??
@@ -114,8 +127,8 @@ Widget getWidget({
     // Displays the main content wrapped with a pull-to-refresh functionality.
     return RefreshIndicator(
       onRefresh: onRefresh ?? () async {},
-      color: refreshColor ?? Colors.white,
-      backgroundColor: refreshBackgroundColor ?? Theme.of(context).primaryColor,
+      color: refreshColor ?? Theme.of(context).primaryColor,
+      backgroundColor: refreshBackgroundColor ?? Theme.of(context).cardColor,
       child: builder(context),
     );
   }

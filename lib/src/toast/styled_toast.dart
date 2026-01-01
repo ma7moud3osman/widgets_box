@@ -25,10 +25,8 @@ const double _defaultHorizontalMargin = 50.0;
 ///
 /// When the life cycle [initState] of toast widget is called, this callback will be called,
 /// the duration of toast [toastDuration] and animation [animDuration] will pass over.
-typedef OnInitStateCallback = Function(
-  Duration toastDuration,
-  Duration animDuration,
-);
+typedef OnInitStateCallback =
+    Function(Duration toastDuration, Duration animDuration);
 
 /// Show normal toast with style and animation.
 ///
@@ -76,19 +74,20 @@ ToastFuture showToast(
 
   position ??= toastTheme?.toastPositions ?? StyledToastPosition.bottom;
 
-  textStyle ??= toastTheme?.textStyle ??
+  textStyle ??=
+      toastTheme?.textStyle ??
       const TextStyle(fontSize: 16.0, color: Colors.white);
 
-  textPadding ??= toastTheme?.textPadding ??
+  textPadding ??=
+      toastTheme?.textPadding ??
       const EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0);
 
   backgroundColor ??= toastTheme?.backgroundColor ?? const Color(0x99000000);
   borderRadius ??= toastTheme?.borderRadius ?? BorderRadius.circular(5.0);
 
-  shapeBorder ??= toastTheme?.shapeBorder ??
-      RoundedRectangleBorder(
-        borderRadius: borderRadius,
-      );
+  shapeBorder ??=
+      toastTheme?.shapeBorder ??
+      RoundedRectangleBorder(borderRadius: borderRadius);
 
   textDirection ??= toastTheme?.textDirection;
 
@@ -101,16 +100,9 @@ ToastFuture showToast(
     width: fullWidth
         ? MediaQuery.of(context).size.width - (toastHorizontalMargin)
         : null,
-    decoration: ShapeDecoration(
-      color: backgroundColor,
-      shape: shapeBorder,
-    ),
+    decoration: ShapeDecoration(color: backgroundColor, shape: shapeBorder),
     padding: textPadding,
-    child: Text(
-      msg ?? '',
-      style: textStyle,
-      textAlign: textAlign,
-    ),
+    child: Text(msg ?? '', style: textStyle, textAlign: textAlign),
   );
 
   return showToastWidget(
@@ -165,7 +157,7 @@ ToastFuture showToastWidget({
   bool? isIgnoring,
   OnInitStateCallback? onInitState,
   required Widget Function(BuildContext? context, StyledToastTheme? theme)
-      builder,
+  builder,
 }) {
   OverlayEntry entry;
   ToastFuture future;
@@ -206,7 +198,8 @@ ToastFuture showToastWidget({
   animation ??=
       animation ?? toastTheme?.toastAnimation ?? StyledToastAnimation.size;
 
-  reverseAnimation ??= reverseAnimation ??
+  reverseAnimation ??=
+      reverseAnimation ??
       toastTheme?.reverseAnimation ??
       StyledToastAnimation.size;
 
@@ -227,40 +220,43 @@ ToastFuture showToastWidget({
 
   GlobalKey<StyledToastWidgetState> key = GlobalKey();
 
-  entry = OverlayEntry(builder: (ctx) {
-    return IgnorePointer(
-      ignoring: isIgnoring!,
-      child: _StyledToastWidget(
-        duration: duration!,
-        animDuration: animDuration!,
-        position: position,
-        animation: animation,
-        reverseAnimation: reverseAnimation,
-        alignment: alignment,
-        axis: axis,
-        startOffset: startOffset,
-        endOffset: endOffset,
-        reverseStartOffset: reverseStartOffset,
-        reverseEndOffset: reverseEndOffset,
-        curve: curve!,
-        reverseCurve: reverseCurve!,
-        key: key,
-        animationBuilder: animationBuilder,
-        reverseAnimBuilder: reverseAnimBuilder,
-        onInitState: onInitState,
-        child: Directionality(
-          textDirection: textDirection ??
-              Directionality.maybeOf(ctx) ??
-              Directionality.maybeOf(context!) ??
-              TextDirection.ltr,
-          child: Material(
-            color: Colors.transparent,
-            child: builder(context, toastTheme),
+  entry = OverlayEntry(
+    builder: (ctx) {
+      return IgnorePointer(
+        ignoring: isIgnoring!,
+        child: _StyledToastWidget(
+          duration: duration!,
+          animDuration: animDuration!,
+          position: position,
+          animation: animation,
+          reverseAnimation: reverseAnimation,
+          alignment: alignment,
+          axis: axis,
+          startOffset: startOffset,
+          endOffset: endOffset,
+          reverseStartOffset: reverseStartOffset,
+          reverseEndOffset: reverseEndOffset,
+          curve: curve!,
+          reverseCurve: reverseCurve!,
+          key: key,
+          animationBuilder: animationBuilder,
+          reverseAnimBuilder: reverseAnimBuilder,
+          onInitState: onInitState,
+          child: Directionality(
+            textDirection:
+                textDirection ??
+                Directionality.maybeOf(ctx) ??
+                Directionality.maybeOf(context!) ??
+                TextDirection.ltr,
+            child: Material(
+              color: Colors.transparent,
+              child: builder(context, toastTheme),
+            ),
           ),
         ),
-      ),
-    );
-  });
+      );
+    },
+  );
 
   if (dismissOtherToast) {
     dismissAllToast();
@@ -412,10 +408,12 @@ class _StyledToastState extends State<StyledToast> {
   Widget build(final BuildContext context) {
     final overlay = Overlay(
       initialEntries: <OverlayEntry>[
-        OverlayEntry(builder: (context) {
-          currentContext = context;
-          return widget.child;
-        })
+        OverlayEntry(
+          builder: (context) {
+            currentContext = context;
+            return widget.child;
+          },
+        ),
       ],
     );
 
@@ -424,14 +422,11 @@ class _StyledToastState extends State<StyledToast> {
     final wrapper = Directionality(
       textDirection:
           textDirection ?? Directionality.maybeOf(context) ?? TextDirection.ltr,
-      child: Stack(
-        children: <Widget>[
-          overlay,
-        ],
-      ),
+      child: Stack(children: <Widget>[overlay]),
     );
 
-    final textStyle = widget.textStyle ??
+    final textStyle =
+        widget.textStyle ??
         const TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.normal,
@@ -443,11 +438,9 @@ class _StyledToastState extends State<StyledToast> {
     final borderRadius = widget.borderRadius ?? BorderRadius.circular(5.0);
 
     final textAlign = widget.textAlign ?? TextAlign.center;
-    final textPadding = widget.textPadding ??
-        const EdgeInsets.symmetric(
-          horizontal: 17.0,
-          vertical: 8.0,
-        );
+    final textPadding =
+        widget.textPadding ??
+        const EdgeInsets.symmetric(horizontal: 17.0, vertical: 8.0);
 
     return Localizations(
       delegates: const [
@@ -674,172 +667,153 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
 
   /// Init animation.
   void _initAnim() {
-    _animationController =
-        AnimationController(vsync: this, duration: widget.animDuration);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: widget.animDuration,
+    );
 
-    _reverseAnimController =
-        AnimationController(vsync: this, duration: widget.animDuration);
+    _reverseAnimController = AnimationController(
+      vsync: this,
+      duration: widget.animDuration,
+    );
 
     switch (widget.animation) {
       case StyledToastAnimation.fade:
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.slideFromTop:
         slideFromTopAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(0.0, -1.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(0.0, -1.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
         break;
       case StyledToastAnimation.slideFromTopFade:
         slideFromTopAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(0.0, -1.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(0.0, -1.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.slideFromBottom:
         slideFromBottomAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(0.0, 1.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(0.0, 1.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
         break;
       case StyledToastAnimation.slideFromBottomFade:
         slideFromBottomAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(0.0, 1.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(0.0, 1.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.slideFromLeft:
         slideFromLeftAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(-1.0, 0.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(-1.0, 0.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
 
         break;
       case StyledToastAnimation.slideFromLeftFade:
         slideFromLeftAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(-1.0, 0.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(-1.0, 0.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.slideFromRight:
         slideFromRightAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(1.0, 0.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(1.0, 0.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
 
         break;
       case StyledToastAnimation.slideFromRightFade:
         slideFromRightAnim = _animationController.drive(
           Tween<Offset>(
-                  begin: widget.startOffset ?? const Offset(1.0, 0.0),
-                  end: widget.endOffset ?? Offset.zero)
-              .chain(
-            CurveTween(
-              curve: widget.curve,
-            ),
-          ),
+            begin: widget.startOffset ?? const Offset(1.0, 0.0),
+            end: widget.endOffset ?? Offset.zero,
+          ).chain(CurveTween(curve: widget.curve)),
         );
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.size:
         sizeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.sizeFade:
         sizeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
 
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.scale:
         scaleAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.fadeScale:
@@ -861,9 +835,10 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
       case StyledToastAnimation.rotate:
         rotateAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
       case StyledToastAnimation.scaleRotate:
@@ -903,9 +878,10 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
       default:
         fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
-              parent: _animationController,
-              curve: widget.curve,
-              reverseCurve: widget.reverseCurve),
+            parent: _animationController,
+            curve: widget.curve,
+            reverseCurve: widget.reverseCurve,
+          ),
         );
         break;
     }
@@ -1112,29 +1088,35 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
     Widget w = widget.child;
 
     if (widget.animationBuilder != null) {
-      w = widget.animationBuilder!
-          .call(context, _animationController, widget.duration, w);
+      w = widget.animationBuilder!.call(
+        context,
+        _animationController,
+        widget.duration,
+        w,
+      );
     } else {
       w = createAnimWidget(w);
     }
 
     if (widget.reverseAnimBuilder != null) {
-      w = widget.reverseAnimBuilder!
-          .call(context, _reverseAnimController, widget.duration, w);
+      w = widget.reverseAnimBuilder!.call(
+        context,
+        _reverseAnimController,
+        widget.duration,
+        w,
+      );
     } else {
       w = createReverseAnimWidget(w);
     }
 
-    w = Opacity(
-      opacity: opacity,
-      child: w,
-    );
+    w = Opacity(opacity: opacity, child: w);
 
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     w = Container(
       padding: EdgeInsets.only(
-          bottom: mediaQueryData.padding.bottom,
-          top: mediaQueryData.padding.top),
+        bottom: mediaQueryData.padding.bottom,
+        top: mediaQueryData.padding.top,
+      ),
       alignment: positionAlignment,
       child: w,
     );
@@ -1181,10 +1163,7 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
         child: w,
       );
     } else {
-      w = Padding(
-        padding: EdgeInsets.all(offset!),
-        child: w,
-      );
+      w = Padding(padding: EdgeInsets.all(offset!), child: w);
     }
 
     return w;
@@ -1194,69 +1173,42 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
   Widget createAnimWidget(Widget w) {
     switch (widget.animation) {
       case StyledToastAnimation.fade:
-        w = FadeTransition(
-          opacity: fadeAnim,
-          child: w,
-        );
+        w = FadeTransition(opacity: fadeAnim, child: w);
         break;
       case StyledToastAnimation.slideFromTop:
-        w = SlideTransition(
-          position: slideFromTopAnim,
-          child: w,
-        );
+        w = SlideTransition(position: slideFromTopAnim, child: w);
         break;
       case StyledToastAnimation.slideFromTopFade:
         w = SlideTransition(
           position: slideFromTopAnim,
-          child: FadeTransition(
-            opacity: fadeAnim,
-            child: w,
-          ),
+          child: FadeTransition(opacity: fadeAnim, child: w),
         );
         break;
       case StyledToastAnimation.slideFromBottom:
-        w = SlideTransition(
-          position: slideFromBottomAnim,
-          child: w,
-        );
+        w = SlideTransition(position: slideFromBottomAnim, child: w);
         break;
       case StyledToastAnimation.slideFromBottomFade:
         w = SlideTransition(
           position: slideFromBottomAnim,
-          child: FadeTransition(
-            opacity: fadeAnim,
-            child: w,
-          ),
+          child: FadeTransition(opacity: fadeAnim, child: w),
         );
         break;
       case StyledToastAnimation.slideFromLeft:
-        w = SlideTransition(
-          position: slideFromLeftAnim,
-          child: w,
-        );
+        w = SlideTransition(position: slideFromLeftAnim, child: w);
         break;
       case StyledToastAnimation.slideFromLeftFade:
         w = SlideTransition(
           position: slideFromLeftAnim,
-          child: FadeTransition(
-            opacity: fadeAnim,
-            child: w,
-          ),
+          child: FadeTransition(opacity: fadeAnim, child: w),
         );
         break;
       case StyledToastAnimation.slideFromRight:
-        w = SlideTransition(
-          position: slideFromRightAnim,
-          child: w,
-        );
+        w = SlideTransition(position: slideFromRightAnim, child: w);
         break;
       case StyledToastAnimation.slideFromRightFade:
         w = SlideTransition(
           position: slideFromRightAnim,
-          child: FadeTransition(
-            opacity: fadeAnim,
-            child: w,
-          ),
+          child: FadeTransition(opacity: fadeAnim, child: w),
         );
         break;
       case StyledToastAnimation.size:
@@ -1274,10 +1226,7 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
           axisAlignment: 0.0,
           alignment: positionAlignment ?? Alignment.center,
           axis: widget.axis ?? Axis.horizontal,
-          child: FadeTransition(
-            opacity: fadeAnim,
-            child: w,
-          ),
+          child: FadeTransition(opacity: fadeAnim, child: w),
         );
         break;
       case StyledToastAnimation.scale:
@@ -1326,15 +1275,10 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
         );
         break;
       case StyledToastAnimation.none:
-        w = Container(
-          child: w,
-        );
+        w = Container(child: w);
         break;
       default:
-        w = FadeTransition(
-          opacity: fadeAnim,
-          child: w,
-        );
+        w = FadeTransition(opacity: fadeAnim, child: w);
         break;
     }
     return w;
@@ -1346,69 +1290,42 @@ class StyledToastWidgetState extends State<_StyledToastWidget>
         widget.animation != widget.reverseAnimation) {
       switch (widget.reverseAnimation) {
         case StyledToastAnimation.fade:
-          w = FadeTransition(
-            opacity: fadeAnimReverse,
-            child: w,
-          );
+          w = FadeTransition(opacity: fadeAnimReverse, child: w);
           break;
         case StyledToastAnimation.slideToTop:
-          w = SlideTransition(
-            position: slideToTopAnimReverse,
-            child: w,
-          );
+          w = SlideTransition(position: slideToTopAnimReverse, child: w);
           break;
         case StyledToastAnimation.slideToTopFade:
           w = SlideTransition(
             position: slideToTopAnimReverse,
-            child: FadeTransition(
-              opacity: fadeAnimReverse,
-              child: w,
-            ),
+            child: FadeTransition(opacity: fadeAnimReverse, child: w),
           );
           break;
         case StyledToastAnimation.slideToBottom:
-          w = SlideTransition(
-            position: slideToBottomAnimReverse,
-            child: w,
-          );
+          w = SlideTransition(position: slideToBottomAnimReverse, child: w);
           break;
         case StyledToastAnimation.slideToBottomFade:
           w = SlideTransition(
             position: slideToBottomAnimReverse,
-            child: FadeTransition(
-              opacity: fadeAnimReverse,
-              child: w,
-            ),
+            child: FadeTransition(opacity: fadeAnimReverse, child: w),
           );
           break;
         case StyledToastAnimation.slideToLeft:
-          w = SlideTransition(
-            position: slideToLeftAnimReverse,
-            child: w,
-          );
+          w = SlideTransition(position: slideToLeftAnimReverse, child: w);
           break;
         case StyledToastAnimation.slideToLeftFade:
           w = SlideTransition(
             position: slideToLeftAnimReverse,
-            child: FadeTransition(
-              opacity: fadeAnimReverse,
-              child: w,
-            ),
+            child: FadeTransition(opacity: fadeAnimReverse, child: w),
           );
           break;
         case StyledToastAnimation.slideToRight:
-          w = SlideTransition(
-            position: slideToRightAnimReverse,
-            child: w,
-          );
+          w = SlideTransition(position: slideToRightAnimReverse, child: w);
           break;
         case StyledToastAnimation.slideToRightFade:
           w = SlideTransition(
             position: slideToRightAnimReverse,
-            child: FadeTransition(
-              opacity: fadeAnimReverse,
-              child: w,
-            ),
+            child: FadeTransition(opacity: fadeAnimReverse, child: w),
           );
           break;
         case StyledToastAnimation.size:

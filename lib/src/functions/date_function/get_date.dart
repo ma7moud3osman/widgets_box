@@ -61,8 +61,9 @@ String getTime({
 
 int getDurationDays({required String date, String? secondDate}) {
   try {
-    final startDate =
-        secondDate != null ? DateTime.parse(secondDate) : DateTime.now();
+    final startDate = secondDate != null
+        ? DateTime.parse(secondDate)
+        : DateTime.now();
     final dateTime = DateTime.tryParse(date)?.toLocal() ?? startDate;
     final difference = dateTime.difference(startDate).inDays;
     return difference.abs() + 1;

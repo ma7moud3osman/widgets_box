@@ -74,8 +74,23 @@ class SmartEmptyWidget extends StatelessWidget {
                       ? SvgPicture.asset(emptyImage!)
                       : Image.asset(emptyImage!)
                 else
-                  Icon(icon ?? Icons.error_outline_outlined),
-                SizedBox(height: 32),
+                  Container(
+                    width: 48,
+                    height: 48,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      icon ?? Icons.inbox_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                SizedBox(height: 24),
 
                 Text(
                   title ?? SmartLocalize.noDataFound,

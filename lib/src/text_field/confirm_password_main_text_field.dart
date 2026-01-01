@@ -40,6 +40,11 @@ class _ConfirmPasswordMainTextField extends MainTextField {
     required super.cursorHeight,
     required super.titleStyle,
     required super.iconColor,
+    required super.minLines,
+    required super.maxLines,
+    required super.maxLength,
+    required super.textDirection,
+    required super.hintTextDirection,
   });
 
   @override
@@ -120,6 +125,11 @@ class _ConfirmPasswordMainTextFieldState
           obscureText: !showPassword,
           obscuringCharacter: '*',
           titleStyle: widget.titleStyle,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          maxLength: widget.maxLength,
+          textDirection: widget.textDirection,
+          hintTextDirection: widget.hintTextDirection,
         ),
       ],
     );

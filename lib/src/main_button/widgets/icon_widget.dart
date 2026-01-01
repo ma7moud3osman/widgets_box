@@ -13,10 +13,6 @@ class IconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      icon,
-      color: iconColor,
-      size: size,
-    );
+    return Icon(icon, color: iconColor, size: size);
   }
 }

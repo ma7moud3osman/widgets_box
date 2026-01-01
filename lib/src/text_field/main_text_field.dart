@@ -124,9 +124,6 @@ class MainTextField extends StatefulWidget {
 
   final String? title;
 
-  /// A flag to show an asterisk (*) next to the label for required fields. Defaults to `true`.
-  final bool showAsterisk;
-
   final double? cursorHeight;
   final bool? obscureText;
   final String? obscuringCharacter;
@@ -146,7 +143,6 @@ class MainTextField extends StatefulWidget {
     this.readOnly = false,
     this.prefixIcon,
     this.textInputAction = TextInputAction.next,
-    this.showAsterisk = false,
     this.isEnable = true,
     this.cursorHeight,
     this.inputFormatters,
@@ -221,9 +217,11 @@ class MainTextField extends StatefulWidget {
     TextStyle? titleStyle,
     TextDirection? textDirection,
     Color? iconColor,
+    int minLines = 1,
+    int maxLines = 1,
+    int? maxLength,
   }) {
     return _EmailMainTextField(
-      showAsterisk: false,
       maxWidth: maxWidth,
       spaceBetween: spaceBetween,
       title: title,
@@ -265,6 +263,10 @@ class MainTextField extends StatefulWidget {
       filled: filled,
       fillColor: fillColor,
       iconColor: iconColor,
+      minLines: minLines,
+      maxLines: maxLines,
+      maxLength: maxLength,
+      hintTextDirection: hintTextDirection,
     );
   }
 
@@ -309,6 +311,10 @@ class MainTextField extends StatefulWidget {
     String? labelText,
     String? hintText,
     Color? iconColor,
+    int minLines = 1,
+    int maxLines = 1,
+    int? maxLength,
+    TextDirection? textDirection,
   }) {
     return _PasswordMainTextField(
       maxWidth: maxWidth,
@@ -349,6 +355,11 @@ class MainTextField extends StatefulWidget {
       isDense: isDense,
       cursorHeight: cursorHeight,
       iconColor: iconColor,
+      minLines: minLines,
+      maxLines: maxLines,
+      maxLength: maxLength,
+      hintTextDirection: hintTextDirection,
+      textDirection: textDirection,
     );
   }
 
@@ -390,6 +401,10 @@ class MainTextField extends StatefulWidget {
     String? labelText,
     String? hintText,
     Color? iconColor,
+    int minLines = 1,
+    int maxLines = 1,
+    int? maxLength,
+    TextDirection? textDirection,
   }) {
     return _ConfirmPasswordMainTextField(
       maxWidth: maxWidth,
@@ -429,6 +444,11 @@ class MainTextField extends StatefulWidget {
       cursorHeight: cursorHeight,
       titleStyle: titleStyle,
       iconColor: iconColor,
+      minLines: minLines,
+      maxLines: maxLines,
+      maxLength: maxLength,
+      hintTextDirection: hintTextDirection,
+      textDirection: textDirection,
     );
   }
 
@@ -469,6 +489,10 @@ class MainTextField extends StatefulWidget {
     String? hintText,
     Color? iconColor,
     bool showPrefixIcon = false,
+    int minLines = 1,
+    int maxLines = 1,
+    int? maxLength,
+    TextDirection? textDirection,
   }) {
     return _NumberMainTextField(
       maxWidth: maxWidth,
@@ -506,6 +530,11 @@ class MainTextField extends StatefulWidget {
       titleStyle: titleStyle,
       iconColor: iconColor,
       showPrefixIcon: showPrefixIcon,
+      minLines: minLines,
+      maxLines: maxLines,
+      maxLength: maxLength,
+      hintTextDirection: hintTextDirection,
+      textDirection: textDirection,
     );
   }
 
@@ -549,6 +578,7 @@ class MainTextField extends StatefulWidget {
     String? labelText,
     String? hintText,
     TextDirection textDirection = TextDirection.ltr,
+    int? maxLength,
   }) {
     return _PhoneMainTextField(
       countryCode: initialCountryCode,
@@ -591,6 +621,10 @@ class MainTextField extends StatefulWidget {
       isDense: isDense,
       isEnable: isEnable,
       cursorHeight: cursorHeight,
+      minLines: 1,
+      maxLines: 1,
+      hintTextDirection: hintTextDirection,
+      maxLength: maxLength,
     );
   }
 
@@ -696,7 +730,8 @@ class _MainTextFieldState extends State<MainTextField> {
                     labelText: widget.labelText,
                     hintText: widget.hintText,
                     isRequired: widget.isRequired,
-                    showAsterisk: widget.showAsterisk,
+                    showAsterisk:
+                        !widget.hideAsterisk, // Use !hideAsterisk instead
                     isDense: widget.isDense,
                     isEnable: widget.isEnable,
                   ),

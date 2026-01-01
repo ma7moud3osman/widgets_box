@@ -33,7 +33,6 @@ class _EmailMainTextField extends MainTextField {
     required super.contentPadding,
     required super.labelText,
     required super.hintText,
-    required super.showAsterisk,
     required super.isDense,
     required super.isEnable,
     required super.hideAsterisk,
@@ -44,6 +43,10 @@ class _EmailMainTextField extends MainTextField {
     required super.titleStyle,
     required super.showPrefixIcon,
     required super.iconColor,
+    required super.minLines,
+    required super.maxLines,
+    required super.maxLength,
+    required super.hintTextDirection,
   });
 
   @override
@@ -77,6 +80,9 @@ class _EmailMainTextFieldState extends State<_EmailMainTextField> {
       textCapitalization: widget.textCapitalization,
       textAlignVertical: widget.textAlignVertical,
       decoration: widget.decoration,
+      textDirection: widget.textDirection,
+      hintTextDirection: widget.hintTextDirection,
+
       prefixIcon:
           widget.prefixIcon ??
           buildPrefixIcon(
@@ -90,7 +96,6 @@ class _EmailMainTextFieldState extends State<_EmailMainTextField> {
       contentPadding: widget.contentPadding,
       labelText: widget.labelText,
       hintText: widget.hintText ?? SmartLocalizePlaceholder.enterEmail,
-      showAsterisk: widget.showAsterisk,
       isDense: widget.isDense,
       isEnable: widget.isEnable,
       filled: widget.filled,
@@ -98,6 +103,9 @@ class _EmailMainTextFieldState extends State<_EmailMainTextField> {
       hideAsterisk: widget.hideAsterisk,
       cursorHeight: widget.cursorHeight,
       titleStyle: widget.titleStyle,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      maxLength: widget.maxLength,
     );
   }
 }

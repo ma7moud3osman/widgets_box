@@ -71,9 +71,11 @@ class MainButton extends ElevatedButtonWidget {
     Color labelColor = Colors.white,
     Color? disableLabelColor,
     Color? iconColor,
+    bool isIconEnd = false,
   }) {
     return _MainIconButton(
-      iconColor: iconColor,
+      isIconEnd: isIconEnd,
+      iconColor: iconColor ?? labelColor,
       width: width,
       labelStyle: labelStyle,
 

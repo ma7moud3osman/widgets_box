@@ -64,7 +64,7 @@ class StatusWidget extends StatelessWidget {
     this.borderRadius,
     this.backgroundColor,
     this.textColor,
-    this.radius = 10,
+    this.radius = 12,
     this.style,
     this.padding,
   });
@@ -73,18 +73,19 @@ class StatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 4),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: backgroundColor ?? textColor?.withValues(alpha: 0.05),
         borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)),
       ),
-      child: Center(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: style ?? context.bodySmall?.copyWith(color: textColor),
-        ),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        overflow: TextOverflow.ellipsis,
+        style:
+            style?.copyWith(color: textColor) ??
+            context.bodySmall?.copyWith(color: textColor),
       ),
     );
   }

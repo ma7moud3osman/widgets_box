@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 /// Enum that defines the type of loading indicator to display.
-enum LoadingType {
+enum IndicatorType {
   /// Displays the default loading indicator (a circular progress indicator).
   defaultType,
 
@@ -15,18 +15,18 @@ enum LoadingType {
 
 class SmartLoadingWidget extends StatelessWidget {
   /// Specifies the type of loading indicator to display.
-  final LoadingType loadingType;
+  final IndicatorType loadingType;
 
   /// The file path to the GIF or Lottie animation.
-  /// This is required when using [LoadingType.gif] or [LoadingType.lottie].
+  /// This is required when using [IndicatorType.gif] or [IndicatorType.lottie].
   final String? path;
 
   const SmartLoadingWidget({
     super.key,
-    this.loadingType = LoadingType.defaultType,
+    this.loadingType = IndicatorType.defaultType,
     this.path,
   }) : assert(
-         loadingType == LoadingType.defaultType || path != null,
+         loadingType == IndicatorType.defaultType || path != null,
          "path must be provided if type is gif or lottie",
        );
 
@@ -35,15 +35,15 @@ class SmartLoadingWidget extends StatelessWidget {
     final double width = 140;
     final double height = 140;
     switch (loadingType) {
-      case LoadingType.defaultType:
+      case IndicatorType.defaultType:
         // Displays the default circular progress indicator.
         return const Center(child: CircularProgressIndicator.adaptive());
-      case LoadingType.gif:
+      case IndicatorType.gif:
         // Displays a GIF image as the loading indicator.
         return Center(
           child: Image.asset(path!, height: height, width: width),
         );
-      case LoadingType.lottie:
+      case IndicatorType.lottie:
         // Displays a Lottie animation as the loading indicator.
         return Center(
           child: Lottie.asset(path!, height: height, width: width),
@@ -52,7 +52,7 @@ class SmartLoadingWidget extends StatelessWidget {
   }
 }
 
-Widget buildLoadingIndicator(LoadingType loadingType, {String? path}) {
+Widget buildLoadingIndicator(IndicatorType loadingType, {String? path}) {
   const double size = 140;
 
   Widget centeredBox(Widget child) {
@@ -72,16 +72,16 @@ Widget buildLoadingIndicator(LoadingType loadingType, {String? path}) {
   }
 
   switch (loadingType) {
-    case LoadingType.defaultType:
+    case IndicatorType.defaultType:
       return centeredBox(const CircularProgressIndicator.adaptive());
 
-    case LoadingType.gif:
+    case IndicatorType.gif:
       if (path == null || path.isEmpty) {
         return errorWidget('Missing GIF path');
       }
       return centeredBox(Image.asset(path, fit: BoxFit.contain));
 
-    case LoadingType.lottie:
+    case IndicatorType.lottie:
       if (path == null || path.isEmpty) {
         return errorWidget('Missing Lottie path');
       }

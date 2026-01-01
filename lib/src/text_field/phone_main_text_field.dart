@@ -44,6 +44,10 @@ class _PhoneMainTextField extends MainTextField {
     required super.textDirection,
     required super.titleStyle,
     required super.showPrefixIcon,
+    required super.minLines,
+    required super.maxLines,
+    required super.maxLength,
+    required super.hintTextDirection,
   });
 
   @override
@@ -105,9 +109,8 @@ class _PhoneMainTextFieldState extends State<_PhoneMainTextField> {
       isEnable: widget.isEnable,
       hideAsterisk: widget.hideAsterisk,
       cursorHeight: widget.cursorHeight,
-      minLines: widget.maxLines,
+      minLines: widget.minLines,
       maxLines: widget.maxLines,
-      showAsterisk: widget.showAsterisk,
       maxLength: widget.maxLength,
       hintTextDirection: widget.hintTextDirection,
       keyboardType: TextInputType.phone,

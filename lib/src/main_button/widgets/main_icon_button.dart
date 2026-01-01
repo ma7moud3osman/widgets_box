@@ -16,6 +16,7 @@ class _MainIconButton extends MainButton {
   /// The imageSize of the button. This controls how transparent the button is. If `null`, a default opacity will be used.
   final double? imageSize;
   final double? spaceBetween;
+  final bool isIconEnd;
 
   final IconType iconType;
 
@@ -26,6 +27,7 @@ class _MainIconButton extends MainButton {
     required this.iconType,
     required this.iconColor,
     this.spaceBetween,
+    this.isIconEnd = false,
     super.width,
 
     ///  maximum width  => default value is 370
@@ -54,7 +56,6 @@ class _MainIconButton extends MainButton {
   Widget build(BuildContext context) {
     return ElevatedButtonWidget(
       ///  maximum width  => default value is 370
-
       maxWidth: maxWidth,
       width: width,
       height: height ?? 44,
@@ -78,30 +79,59 @@ class _MainIconButton extends MainButton {
             mainAxisAlignment: icon == null
                 ? MainAxisAlignment.spaceEvenly
                 : MainAxisAlignment.center,
-            children: [
-              ImageWidget(
-                iconType: iconType,
-                imagePath: imagePath,
-                imageSize: imageSize ?? 24,
-                opacity: opacity,
-                icon: icon,
-                iconColor:
-                    iconColor ?? Theme.of(context).textTheme.labelMedium!.color,
-              ),
-              SizedBox(width: spaceBetween),
-              TextWidget(
-                label: label,
-                labelStyle: labelStyle ??
-                    Theme.of(context).textTheme.labelMedium!.copyWith(
-                          color: (isDisable ?? false)
-                              ? disableLabelColor
-                              : labelColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: fontSize,
-                          height: 0.0,
-                        ),
-              ),
-            ],
+            children: isIconEnd
+                ? [
+                    TextWidget(
+                      label: label,
+                      labelStyle:
+                          labelStyle ??
+                          Theme.of(context).textTheme.labelMedium!.copyWith(
+                            color: (isDisable ?? false)
+                                ? disableLabelColor
+                                : labelColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: fontSize,
+                            height: 0.0,
+                          ),
+                    ),
+                    SizedBox(width: spaceBetween),
+                    ImageWidget(
+                      iconType: iconType,
+                      imagePath: imagePath,
+                      imageSize: imageSize ?? 24,
+                      opacity: opacity,
+                      icon: icon,
+                      iconColor:
+                          iconColor ??
+                          Theme.of(context).textTheme.labelMedium!.color,
+                    ),
+                  ]
+                : [
+                    ImageWidget(
+                      iconType: iconType,
+                      imagePath: imagePath,
+                      imageSize: imageSize ?? 24,
+                      opacity: opacity,
+                      icon: icon,
+                      iconColor:
+                          iconColor ??
+                          Theme.of(context).textTheme.labelMedium!.color,
+                    ),
+                    SizedBox(width: spaceBetween),
+                    TextWidget(
+                      label: label,
+                      labelStyle:
+                          labelStyle ??
+                          Theme.of(context).textTheme.labelMedium!.copyWith(
+                            color: (isDisable ?? false)
+                                ? disableLabelColor
+                                : labelColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: fontSize,
+                            height: 0.0,
+                          ),
+                    ),
+                  ],
           ),
         ),
       ),

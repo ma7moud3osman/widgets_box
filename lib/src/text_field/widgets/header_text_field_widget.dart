@@ -18,17 +18,14 @@ class HeaderFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          title,
-          style: titleStyle ?? Theme.of(context).textTheme.bodySmall,
-        ),
+        Text(title, style: titleStyle ?? Theme.of(context).textTheme.bodySmall),
         if (isRequired && !hideAsterisk)
           Text(
             ' * ',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
-          )
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
       ],
     );
   }
