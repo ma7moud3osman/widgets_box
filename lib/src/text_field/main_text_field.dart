@@ -130,6 +130,24 @@ class MainTextField extends StatefulWidget {
   final TextDirection? textDirection;
   final Color? iconColor;
 
+  /// Called when the user submits the field (keyboard action). Exposes the
+  /// raw `TextFormField.onFieldSubmitted` so search/next-field flows don't have
+  /// to drop to a raw `TextField`.
+  final void Function(String)? onFieldSubmitted;
+
+  /// Whether the field should grab focus on first build.
+  final bool autofocus;
+
+  /// The color of the input cursor. Falls back to the theme when null.
+  final Color? cursorColor;
+
+  /// Whether the field allows text selection. Defaults to enabled.
+  final bool? enableInteractiveSelection;
+
+  /// Called when a pointer taps outside the field. Defaults to dismissing the
+  /// keyboard; pass your own to override that behavior.
+  final void Function(PointerDownEvent)? onTapOutside;
+
   const MainTextField({
     this.filled,
     this.fillColor,
@@ -176,6 +194,11 @@ class MainTextField extends StatefulWidget {
     this.titleStyle,
     this.showPrefixIcon = false,
     this.iconColor,
+    this.onFieldSubmitted,
+    this.autofocus = false,
+    this.cursorColor,
+    this.enableInteractiveSelection,
+    this.onTapOutside,
   });
 
   factory MainTextField.email({
@@ -639,9 +662,13 @@ class _MainTextFieldState extends State<MainTextField> {
   Widget build(BuildContext context) {
     final config = WidgetsBoxConfigProvider.of(context);
 
+    final textFieldConfig = config.textFieldConfig;
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: widget.maxWidth ?? config.width ?? 370,
+        maxWidth: widget.maxWidth ??
+            textFieldConfig?.width ??
+            config.width ??
+            WidgetsBoxConfig.defaults.width!,
       ),
       child: Column(
         children: [
@@ -689,6 +716,11 @@ class _MainTextFieldState extends State<MainTextField> {
               onChanged: widget.onChanged,
               // Callback triggered when editing is completed (e.g., pressing the "done" button).
               onEditingComplete: widget.onEditingComplete,
+              // Callback triggered when the field is submitted from the keyboard.
+              onFieldSubmitted: widget.onFieldSubmitted,
+              autofocus: widget.autofocus,
+              cursorColor: widget.cursorColor,
+              enableInteractiveSelection: widget.enableInteractiveSelection,
               // Callback for saving the value of the form field.
               onSaved: widget.onSaved,
               // Minimum number of lines to show when the field is not expanded.
@@ -708,10 +740,13 @@ class _MainTextFieldState extends State<MainTextField> {
               obscureText: widget.obscureText ?? false,
               // Character used to obscure text, default is '*'.
               obscuringCharacter: widget.obscuringCharacter ?? '*',
-              // Callback triggered when the user taps outside the field. Closes the keyboard if `shouldCloseKeyboardOnTapOutside` is true.
-              onTapOutside: (event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
+              // Callback triggered when the user taps outside the field.
+              // Defaults to dismissing the keyboard; overridable by the caller.
+              onTapOutside:
+                  widget.onTapOutside ??
+                  (event) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
 
               // Text capitalization mode for the field.
               textCapitalization:
@@ -736,6 +771,13 @@ class _MainTextFieldState extends State<MainTextField> {
                         !widget.hideAsterisk, // Use !hideAsterisk instead
                     isDense: widget.isDense,
                     isEnable: widget.isEnable,
+                    filled: widget.filled,
+                    fillColor: widget.fillColor ?? textFieldConfig?.fillColor,
+                    radius: textFieldConfig?.radius,
+                    borderColor: textFieldConfig?.borderColor,
+                    focusedBorderColor: textFieldConfig?.focusedBorderColor,
+                    borderWidth: textFieldConfig?.borderWidth,
+                    labelColor: textFieldConfig?.labelColor,
                   ),
 
               cursorHeight:

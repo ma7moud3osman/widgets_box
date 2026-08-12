@@ -1,3 +1,15 @@
+## 0.2.0
+
+* feat: generic debug **environment switcher** (`WBEnvironmentManager`, `WBEnvironmentConfig`, `WBAppEnvironment`, `WBEnvironmentSwitcher`) — config-driven, debug-only, release-safe.
+* feat: `WBAppRestarter` — dependency-free in-process app remount (replaces `flutter_phoenix`).
+* feat: `WBPoweredBy` and `WBAppVersion` (app version/build + Shorebird patch) reusable widgets.
+* fix: config system — value equality + `hashCode` on `WidgetsBoxConfig`/`ButtonConfig`/`TextFieldConfig` (correct `updateShouldNotify`); single `WidgetsBoxConfig.defaults` source of truth; previously-dead `ButtonConfig`/`TextFieldConfig` fields are now consumed.
+* feat: text field — expose more `TextFormField` capability on the base field (`onFieldSubmitted`, `autofocus`, `cursorColor`, `enableInteractiveSelection`, overridable `onTapOutside`); `.number` now uses a decimal keyboard + decimal-tolerant formatter.
+* fix: text field — opt-in `filled`/`fillColor`/border/radius/label color (defers to `InputDecorationTheme` when unset); email min-length false-reject and password special-char regex corrected.
+* fix: button — background used the border color for non-primary variants; disabled label + border width now configurable.
+* fix: `HexColor` no longer throws on malformed input (supports `#RGB`); per-instance `Debouncer`; `SmartRefreshIndicator` spinner color; `SmartWelcomeWidget` "null" name; `toCapitalLetter` on empty string.
+* chore: export-barrel cleanup (removed dead `app_font`, fixed `string_extension` filename), added `ToastConfig`.
+
 ## 0.1.0
 
 * feat: add string extensions for date formatting and phone number pars…

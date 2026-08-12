@@ -14,7 +14,13 @@ class ButtonStyleClass extends ButtonStyle {
   final Color background;
   final BuildContext context;
   final bool smallSize;
-  final EdgeInsets contentPadding;
+  final EdgeInsetsGeometry contentPadding;
+
+  /// Foreground color while disabled. Defaults to grey.
+  final Color? disableLabelColor;
+
+  /// Border stroke width. Defaults to 0.5.
+  final double borderWidth;
 
   const ButtonStyleClass({
     required this.width,
@@ -29,6 +35,8 @@ class ButtonStyleClass extends ButtonStyle {
     required this.smallSize,
     required this.opacity,
     required this.contentPadding,
+    this.disableLabelColor,
+    this.borderWidth = 0.5,
   });
 
   ButtonStyle get apply {
@@ -44,13 +52,15 @@ class ButtonStyleClass extends ButtonStyle {
             states.contains(WidgetState.disabled) ? disableColor : background,
       ),
       foregroundColor: WidgetStateProperty.resolveWith<Color>(
-        (Set<WidgetState> states) =>
-            states.contains(WidgetState.disabled) ? Colors.grey : labelColor,
+        (Set<WidgetState> states) => states.contains(WidgetState.disabled)
+            ? (disableLabelColor ?? Colors.grey)
+            : labelColor,
       ),
       side: WidgetStateProperty.resolveWith<BorderSide>(
-        (Set<WidgetState> states) => states.contains(WidgetState.disabled)
-            ? BorderSide(color: borderColor, width: 0.5)
-            : BorderSide(color: borderColor, width: 0.5),
+        (Set<WidgetState> states) => BorderSide(
+          color: borderColor,
+          width: borderWidth,
+        ),
       ),
       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),

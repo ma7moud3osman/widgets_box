@@ -41,8 +41,9 @@ extension Pop on BuildContext {
 }
 
 extension CapitalLetterExtension on String {
-  String get toCapitalLetter =>
-      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  String get toCapitalLetter => isEmpty
+      ? this
+      : "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
 }
 
 extension MobileType on BuildContext {

@@ -41,7 +41,10 @@ class SmartWelcomeWidget extends StatelessWidget {
             children: [
               SmartUserImage(
                 imageSize: imageSize ?? 40,
-                displayName: '$firstName$lastName',
+                displayName: [
+                  firstName,
+                  lastName,
+                ].whereType<String>().where((part) => part.isNotEmpty).join(' '),
                 photo: userImage,
               ),
               SizedBox(width: spaceBetween),

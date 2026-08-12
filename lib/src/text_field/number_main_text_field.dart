@@ -68,10 +68,13 @@ class _NumberMainTextFieldState extends State<_NumberMainTextField> {
       onSaved: widget.onSaved,
       isRequired: widget.isRequired,
       validator: widget.validator ?? (val) => validateNumberFormat(val),
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        ...?widget.inputFormatters,
-      ],
+      // Decimal-tolerant by default (money/quantity inputs) with a decimal
+      // keyboard. Callers can still supply their own formatters, which run
+      // after this default filter.
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      inputFormatters:
+          widget.inputFormatters ??
+          [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
       textInputAction: widget.textInputAction,
       focusNode: widget.focusNode,
       textCapitalization: widget.textCapitalization,

@@ -16,10 +16,6 @@ String? validateEmailFormat(String? value) {
     return SmartLocalizeValidation.cannotBeEmpty;
   }
 
-  if (trimmedValue.length < 8) {
-    return SmartLocalizeValidation.emailMustBe8Characters;
-  }
-
   const emailRegex =
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})*$";
 
@@ -130,7 +126,7 @@ String? validatePasswordFormat(String? value) {
 
   final RegExp digitRegExp = RegExp(r'\d');
 
-  final RegExp specialCharRegExp = RegExp(r'\W');
+  final RegExp specialCharRegExp = RegExp(r'''[!@#$%^&*(),.?":{}|<>_\-\[\]/\\'`~+=;]''');
 
   // Perform checks and add error messages to the list if validation fails
 

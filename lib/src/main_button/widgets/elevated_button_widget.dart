@@ -83,13 +83,28 @@ class ElevatedButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final config = WidgetsBoxConfigProvider.of(context);
     final typeValue = type ?? MainButtonEnum.primary;
+    // Resolution order: widget prop -> ButtonConfig -> top-level -> default.
+    final resolvedRadius = radius ??
+        config.buttonConfig?.radius ??
+        config.radius ??
+        WidgetsBoxConfig.defaults.radius!;
+    final resolvedHeight = height ??
+        config.buttonConfig?.height ??
+        config.height ??
+        WidgetsBoxConfig.defaults.height!;
+    final resolvedMaxWidth = maxWidth ??
+        config.buttonConfig?.width ??
+        config.width ??
+        WidgetsBoxConfig.defaults.width!;
+    final resolvedPadding = contentPadding ??
+        config.buttonConfig?.contentPadding ??
+        config.contentPadding ??
+        const EdgeInsets.all(12);
     return DecoratedBox(
       decoration: ShapeDecoration(
         color: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(radius ?? config.radius ?? 8),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(resolvedRadius)),
         ),
         shadows: !(showShadow ?? false)
             ? null
@@ -105,13 +120,12 @@ class ElevatedButtonWidget extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyleClass(
           width: width ?? double.infinity,
-          maxWidth:
-              maxWidth ?? config.buttonConfig?.width ?? config.width ?? 370,
-          height: height ?? config.height ?? 44,
-          radius: radius ?? config.radius ?? 8,
+          maxWidth: resolvedMaxWidth,
+          height: resolvedHeight,
+          radius: resolvedRadius,
           labelColor: getTextColor(typeValue, context, color: labelColor),
           borderColor: getBorderColor(typeValue, context, color: borderColor),
-          background: getBorderColor(
+          background: getBackgroundColor(
             typeValue,
             context,
             color: backgroundColor,
@@ -119,16 +133,17 @@ class ElevatedButtonWidget extends StatelessWidget {
           context: context,
           smallSize: smallSize ?? false,
           opacity: opacity,
-          contentPadding: contentPadding ?? const EdgeInsets.all(12),
+          contentPadding: resolvedPadding,
           disableColor: disableColor ?? Colors.grey.shade100,
+          disableLabelColor: config.buttonConfig?.disableLabelColor,
         ).apply,
         onPressed: (isLoading ?? false) || (isDisable ?? false)
             ? null
             : onPressed,
         child: (isLoading ?? false)
             ? SizedBox(
-                width: (smallSize ?? false) ? 60 : width,
-                height: (smallSize ?? false) ? 40 : height,
+                width: (smallSize ?? false) ? 60 : null,
+                height: (smallSize ?? false) ? 40 : resolvedHeight,
                 child: CircularIndicatorWidget(
                   color: getLoadingColor(typeValue, context, color: labelColor),
                 ),

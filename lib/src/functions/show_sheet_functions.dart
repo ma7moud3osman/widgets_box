@@ -18,7 +18,7 @@ showBottomSheetWidget({
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (hideSheetHeader) ...[
+          if (!hideSheetHeader) ...[
             const HeaderBottomSheet(),
             const SizedBox(height: 16),
           ],
@@ -66,37 +66,4 @@ class HeaderBottomSheet extends StatelessWidget {
       ],
     );
   }
-}
-
-void showBottomSheet(context) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.transparent,
-    isScrollControlled: true,
-    builder: (context) {
-      return DraggableScrollableSheet(
-        snap: true,
-        snapSizes: const [0.5, 0.6, 0.8, 0.9],
-        expand: false,
-        maxChildSize: 0.9,
-        minChildSize: 0.1,
-        initialChildSize: 0.3,
-        builder: (context, scrollController) {
-          return Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-            ),
-            width: double.infinity,
-            child: SingleChildScrollView(
-              controller: scrollController,
-              child: Column(
-                children: List.generate(50, (index) => const Text('Test')),
-              ),
-            ),
-          );
-        },
-      );
-    },
-  );
 }

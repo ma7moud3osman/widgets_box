@@ -2,7 +2,7 @@ name: widgets_box
 description: "A Flutter package for efficient UI state management, handling
   loading, empty views, content display, caching, and pull-to-refresh with
   customizable widgets."
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/abdelrahmanghanem
 repository: https://github.com/abdelrahmanghanem/widgets_box
 
@@ -20,9 +20,12 @@ dependencies:
   flutter_svg: ^2.1.0
   intl: ^0.20.2
   lottie: ^3.3.1
+  package_info_plus: ^8.3.0
   phone_numbers_parser: ^9.0.20
+  shorebird_code_push: ^2.0.7
   skeletonizer: ^2.1.2
   smart_localize: ^0.0.16
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_lints: ^5.0.0

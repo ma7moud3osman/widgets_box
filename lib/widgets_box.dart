@@ -2,10 +2,19 @@ library;
 
 export 'package:lottie/lottie.dart';
 
+// app info
+export 'src/app_info/app_version_widget.dart';
+export 'src/app_info/powered_by_widget.dart';
 export 'src/config/main_config.dart';
+// environment
+export 'src/environment/app_environment.dart';
+export 'src/environment/environment_config.dart';
+export 'src/environment/environment_manager.dart';
+export 'src/environment/environment_switcher.dart';
 // extension
-export 'src/extension/app_font.dart';
 export 'src/extension/context_extension.dart';
+export 'src/extension/initials_extension.dart';
+export 'src/extension/string_extension.dart';
 // functions
 export 'src/functions/date_function/date_format.dart';
 export 'src/functions/date_function/get_date.dart';
@@ -15,6 +24,8 @@ export 'src/functions/separated_widget.dart';
 export 'src/functions/show_toast_function.dart';
 export 'src/main_button/widgets/image_widget.dart';
 export 'src/main_button/widgets/main_button.dart';
+// restart
+export 'src/restart/app_restarter.dart';
 export 'src/text_field/functions/get_input_decoration.dart';
 export 'src/text_field/functions/validation_functions.dart';
 export 'src/text_field/main_text_field.dart';
@@ -30,6 +41,7 @@ export 'src/widgets/smart_empty_screen.dart';
 export 'src/widgets/smart_loading_widget.dart';
 export 'src/widgets/smart_refresh_indicator.dart';
 // widgets
+export 'src/widgets/wb_card.dart';
 export 'src/widgets/smart_screen.dart';
 export 'src/widgets/smart_status_widget.dart';
 export 'src/widgets/smart_tag_widget.dart';

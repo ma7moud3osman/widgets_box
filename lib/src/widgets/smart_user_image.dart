@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_box/src/extension/initials_extension.dart';
 import 'package:widgets_box/widgets_box.dart';
 
 class SmartUserImage extends StatelessWidget {

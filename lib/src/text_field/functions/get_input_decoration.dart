@@ -33,7 +33,31 @@ InputDecoration getInputDecoration({
   bool isRequired = false,
   EdgeInsetsGeometry? contentPadding,
   TextStyle? floatingLabelStyle,
+  bool? filled,
+  Color? fillColor,
+  double? radius,
+  Color? borderColor,
+  Color? focusedBorderColor,
+  double? borderWidth,
+  Color? labelColor,
 }) {
+  // Borders are only built when the consumer opts in (a radius or border color
+  // is supplied). Otherwise they are left null so the app's global
+  // InputDecorationTheme keeps driving the look — this preserves the existing
+  // appearance for every current consumer.
+  final wantsBorder =
+      radius != null || borderColor != null || borderWidth != null;
+  OutlineInputBorder? borderFor(Color color) => wantsBorder
+      ? OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radius ?? 8),
+          borderSide: BorderSide(color: color, width: borderWidth ?? 1.0),
+        )
+      : null;
+
+  final theme = Theme.of(context);
+  final enabledColor = borderColor ?? theme.dividerColor;
+  final focusedColor = focusedBorderColor ?? theme.colorScheme.primary;
+
   return InputDecoration(
     contentPadding: contentPadding ?? EdgeInsets.zero,
     isDense: isDense,
@@ -41,6 +65,11 @@ InputDecoration getInputDecoration({
     hintText: hintText,
     prefixIcon: prefixIcon,
     suffixIcon: suffixIcon,
+    filled: filled ?? (fillColor != null ? true : null),
+    fillColor: fillColor,
+    border: borderFor(enabledColor),
+    enabledBorder: borderFor(enabledColor),
+    focusedBorder: borderFor(focusedColor),
     label: labelText != null
         ? LabelRequiredWidget(
             label: labelText,
@@ -50,8 +79,8 @@ InputDecoration getInputDecoration({
     counterText: '',
     floatingLabelStyle:
         floatingLabelStyle ??
-        Theme.of(
-          context,
-        ).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade800),
+        theme.textTheme.bodyMedium?.copyWith(
+          color: labelColor ?? Colors.grey.shade800,
+        ),
   );
 }

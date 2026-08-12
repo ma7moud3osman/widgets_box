@@ -8,10 +8,19 @@ class SmartRefreshIndicator extends StatelessWidget {
   /// This function should handle the logic for refreshing the data.
   final Future<void> Function() onRefresh;
 
+  /// The color of the spinner. Defaults to the theme primary color so it stays
+  /// visible on light backgrounds.
+  final Color? color;
+
+  /// The background disc color behind the spinner.
+  final Color? backgroundColor;
+
   const SmartRefreshIndicator({
     super.key,
     required this.child,
     required this.onRefresh,
+    this.color,
+    this.backgroundColor,
   });
 
   @override
@@ -20,8 +29,9 @@ class SmartRefreshIndicator extends StatelessWidget {
       // Function called when the user performs the pull-to-refresh gesture.
       onRefresh: onRefresh,
 
-      // The color of the refresh indicator.
-      color: Colors.white,
+      // The color of the refresh indicator (visible on light backgrounds).
+      color: color ?? Theme.of(context).primaryColor,
+      backgroundColor: backgroundColor,
 
       // The main content widget that will be displayed when not in the refreshing state.
       child: child,
