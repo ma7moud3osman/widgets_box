@@ -56,8 +56,16 @@ export 'src/widgets/smart_empty_screen.dart';
 export 'src/widgets/smart_loading_widget.dart';
 export 'src/widgets/smart_refresh_indicator.dart';
 // widgets
+export 'src/widgets/wb_amount_text.dart';
+export 'src/widgets/wb_arrow.dart';
 export 'src/widgets/wb_card.dart';
 export 'src/widgets/wb_detail_row.dart';
+export 'src/widgets/wb_divider_text.dart';
+export 'src/widgets/wb_icon_box.dart';
+export 'src/widgets/wb_page_dots.dart';
+export 'src/widgets/wb_rating_bar.dart';
+export 'src/widgets/wb_social_button.dart';
+export 'src/widgets/wb_text_link.dart';
 export 'src/widgets/wb_list_row.dart';
 export 'src/widgets/wb_section_header.dart';
 export 'src/widgets/wb_status_badge.dart';
