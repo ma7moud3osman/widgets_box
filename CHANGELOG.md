@@ -1,5 +1,13 @@
 ## 0.2.0
 
+* feat: cross-app helper/widget library mined from the consuming apps — additive, `WB`-prefixed/namespaced to avoid collisions:
+  * **Extensions:** `BuildContext` (`isArabic`/`isEnglish`, `isTablet`, `width`/`height`/`topPadding`/`bottomPadding`/`keyboardInset`); `Widget` (`toSliver`, `centered`, `flexible`/`expanded`, `withPadding`, `visible`); `ThemeMode` ↔ `String`.
+  * **Helper facades:** `WBValidators` (over the localized validators), `WBSheets.show`, `WBDialogs.confirm`/`alert` (platform-aware), `WBDates` (`isSameDay`/`isToday`/`dayLabel`/…).
+  * **Form inputs:** `WBFieldLabel`, `WBDropdownField`, `WBDateField`, `WBPinField` (dependency-free OTP).
+  * **Display widgets:** `WBIconBox`, `WBArrow` (RTL-flipping), `WBDividerText` (+`.or`), `WBRatingBar`, `WBAmountText`, `WBPageDots`, `WBTextLink`, `WBSocialButton`.
+  * **Layout/lists:** `WBGap` (named spacer), `WBHorizontalList`, `WBSliverList`.
+* fix: `WBButton.icon` now inserts a default 8px gap between icon and label (was zero).
+* fix: `WBPoweredBy` renders the bundled GAIT monogram, matches the app footer exactly, and never overflows (FittedBox).
 * docs: visual brand identity — pub.dev cover, component gallery and styling-precedence images; rewritten README with `WB`-name usage examples and pub.dev `screenshots`.
 * **BREAKING (with migration):** public widgets renamed to a consistent `WB` prefix — `MainButton`→`WBButton`, `MainTextField`→`WBTextField`, `SmartScreen`→`WBScreen`, `SmartEmptyWidget`→`WBEmptyState`, `SmartLoadingWidget`→`WBLoading`, `SmartCachedImages`→`WBCachedImage`, `SmartUserImage`→`WBUserImage`, `SmartWelcomeWidget`→`WBWelcome`, `SmartRefreshIndicator`→`WBRefreshIndicator`, `SmartStatusWidget`→`WBPositionedStatus`, `StatusWidget`→`WBStatus`, `SmartTagWidget`→`WBTag`, `MainButtonEnum`→`WBButtonType`. `@Deprecated` typedef aliases keep old names compiling.
 * **BREAKING:** removed the `export 'package:lottie/lottie.dart'` re-export — it leaked third-party + `dart:ui` names (e.g. `TextDirection`) into consumers and forced `hide` clauses. Import Lottie directly if needed.
