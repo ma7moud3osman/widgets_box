@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../extension/context_extension.dart';
 
-class SmartStatusWidget extends StatelessWidget {
+class WBPositionedStatus extends StatelessWidget {
   final double height;
   final BorderRadiusGeometry? borderRadius;
   final Color? backgroundColor;
@@ -12,7 +12,7 @@ class SmartStatusWidget extends StatelessWidget {
   final TextStyle? style;
   final EdgeInsetsGeometry? padding;
 
-  const SmartStatusWidget({
+  const WBPositionedStatus({
     super.key,
     this.height = 26,
     this.borderRadius,
@@ -34,7 +34,7 @@ class SmartStatusWidget extends StatelessWidget {
         PositionedDirectional(
           end: 0,
           height: height,
-          child: StatusWidget(
+          child: WBStatus(
             height: height,
             borderRadius: borderRadius,
             backgroundColor: backgroundColor,
@@ -49,7 +49,7 @@ class SmartStatusWidget extends StatelessWidget {
   }
 }
 
-class StatusWidget extends StatelessWidget {
+class WBStatus extends StatelessWidget {
   final double height;
   final BorderRadiusGeometry? borderRadius;
   final Color? backgroundColor;
@@ -66,7 +66,15 @@ class StatusWidget extends StatelessWidget {
   /// border) instead of the filled/translucent default.
   final bool outlined;
 
-  const StatusWidget({
+  /// Draws a border in this color IN ADDITION to the fill (some chips use a
+  /// translucent fill plus a stronger same-hue border). Ignored when [outlined]
+  /// is true (which draws its own border).
+  final Color? borderColor;
+
+  /// Shows a small filled dot (in [textColor]) before the label.
+  final bool leadingDot;
+
+  const WBStatus({
     super.key,
     required this.text,
     this.height = 26,
@@ -78,6 +86,8 @@ class StatusWidget extends StatelessWidget {
     this.padding,
     this.icon,
     this.outlined = false,
+    this.borderColor,
+    this.leadingDot = false,
   });
 
   @override
@@ -105,16 +115,30 @@ class StatusWidget extends StatelessWidget {
             ? Border.all(
                 color: textColor ?? Theme.of(context).colorScheme.outline,
               )
-            : null,
+            : (borderColor != null ? Border.all(color: borderColor!) : null),
       ),
       alignment: Alignment.center,
-      child: icon == null
+      child: (icon == null && !leadingDot)
           ? label
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 14, color: textColor),
-                const SizedBox(width: 4),
+                if (leadingDot)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: textColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                if (icon != null) ...[
+                  Icon(icon, size: 14, color: textColor),
+                  const SizedBox(width: 4),
+                ],
                 Flexible(child: label),
               ],
             ),

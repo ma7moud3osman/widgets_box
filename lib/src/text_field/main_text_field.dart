@@ -18,7 +18,7 @@ part 'phone_main_text_field.dart';
 
 /// A custom text form field widget that provides a variety of configurable options
 /// including borders, icons, validation, and text input handling.
-class MainTextField extends StatefulWidget {
+class WBTextField extends StatefulWidget {
   final bool? filled;
   final Color? fillColor;
 
@@ -148,7 +148,14 @@ class MainTextField extends StatefulWidget {
   /// keyboard; pass your own to override that behavior.
   final void Function(PointerDownEvent)? onTapOutside;
 
-  const MainTextField({
+  /// A widget rendered on the trailing side of the title row (e.g. an "Add" or
+  /// "Clear" action beside the field label).
+  final Widget? titleTrailing;
+
+  /// Accessibility / UI-test identifier applied to the whole field.
+  final String? semanticsIdentifier;
+
+  const WBTextField({
     this.filled,
     this.fillColor,
     super.key,
@@ -199,9 +206,11 @@ class MainTextField extends StatefulWidget {
     this.cursorColor,
     this.enableInteractiveSelection,
     this.onTapOutside,
+    this.titleTrailing,
+    this.semanticsIdentifier,
   });
 
-  factory MainTextField.email({
+  factory WBTextField.email({
     double? maxWidth,
     double spaceBetween = 4,
     bool readOnly = false,
@@ -293,7 +302,7 @@ class MainTextField extends StatefulWidget {
     );
   }
 
-  factory MainTextField.password({
+  factory WBTextField.password({
     double? maxWidth,
     double spaceBetween = 4,
     bool showPrefixIcon = false,
@@ -386,7 +395,7 @@ class MainTextField extends StatefulWidget {
     );
   }
 
-  factory MainTextField.confirmPassword({
+  factory WBTextField.confirmPassword({
     TextStyle? titleStyle,
     bool showPrefixIcon = false,
     double? maxWidth,
@@ -475,7 +484,7 @@ class MainTextField extends StatefulWidget {
     );
   }
 
-  factory MainTextField.number({
+  factory WBTextField.number({
     double? maxWidth,
     bool readOnly = false,
     double spaceBetween = 4,
@@ -561,7 +570,7 @@ class MainTextField extends StatefulWidget {
     );
   }
 
-  factory MainTextField.phone({
+  factory WBTextField.phone({
     double? maxWidth,
     double spaceBetween = 4,
     bool showPrefixIcon = false,
@@ -654,16 +663,16 @@ class MainTextField extends StatefulWidget {
   }
 
   @override
-  State<MainTextField> createState() => _MainTextFieldState();
+  State<WBTextField> createState() => _MainTextFieldState();
 }
 
-class _MainTextFieldState extends State<MainTextField> {
+class _MainTextFieldState extends State<WBTextField> {
   @override
   Widget build(BuildContext context) {
     final config = WidgetsBoxConfigProvider.of(context);
 
     final textFieldConfig = config.textFieldConfig;
-    return ConstrainedBox(
+    final Widget field = ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: widget.maxWidth ??
             textFieldConfig?.width ??
@@ -684,7 +693,7 @@ class _MainTextFieldState extends State<MainTextField> {
                     titleStyle: widget.titleStyle,
                   ),
                 ),
-                // button ?? const SizedBox.shrink()
+                if (widget.titleTrailing != null) widget.titleTrailing!,
               ],
             ),
             SizedBox(height: widget.spaceBetween),
@@ -787,5 +796,7 @@ class _MainTextFieldState extends State<MainTextField> {
         ],
       ),
     );
+    if (widget.semanticsIdentifier == null) return field;
+    return Semantics(identifier: widget.semanticsIdentifier, child: field);
   }
 }

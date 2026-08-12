@@ -6,7 +6,7 @@ import '../functions/date_function/date_format.dart';
 import '../functions/date_function/get_date.dart';
 import 'smart_user_image.dart';
 
-class SmartWelcomeWidget extends StatelessWidget {
+class WBWelcome extends StatelessWidget {
   final String firstName;
   final String? lastName;
   final String userImage;
@@ -19,7 +19,7 @@ class SmartWelcomeWidget extends StatelessWidget {
   final TextStyle? userNameStyle;
   final TextStyle? greetingStyle;
 
-  const SmartWelcomeWidget({
+  const WBWelcome({
     super.key,
     required this.firstName,
     required this.userImage,
@@ -42,7 +42,7 @@ class SmartWelcomeWidget extends StatelessWidget {
           onTap: onTap,
           child: Row(
             children: [
-              SmartUserImage(
+              WBUserImage(
                 imageSize: imageSize ?? 40,
                 displayName: [
                   firstName,

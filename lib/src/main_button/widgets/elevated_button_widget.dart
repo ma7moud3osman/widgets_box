@@ -49,13 +49,20 @@ class ElevatedButtonWidget extends StatelessWidget {
 
   final double? opacity;
 
-  /// type => default value is MainButtonEnum.primary
-  final MainButtonEnum? type;
+  /// type => default value is WBButtonType.primary
+  final WBButtonType? type;
 
   final Widget? child;
 
   /// labelColor => default value is Colors.white
   final Color? labelColor;
+
+  /// Optional gradient background. When set it paints behind the button and the
+  /// solid background color is made transparent so the gradient shows through.
+  final Gradient? gradient;
+
+  /// Accessibility / UI-test identifier for the button.
+  final String? semanticsIdentifier;
 
   const ElevatedButtonWidget({
     super.key,
@@ -78,12 +85,14 @@ class ElevatedButtonWidget extends StatelessWidget {
     this.borderColor,
     this.opacity,
     this.type,
+    this.gradient,
+    this.semanticsIdentifier,
   });
 
   @override
   Widget build(BuildContext context) {
     final config = WidgetsBoxConfigProvider.of(context);
-    final typeValue = type ?? MainButtonEnum.primary;
+    final typeValue = type ?? WBButtonType.primary;
     // Resolution order: widget prop -> ButtonConfig -> top-level -> default.
     final resolvedRadius = radius ??
         config.buttonConfig?.radius ??
@@ -101,9 +110,11 @@ class ElevatedButtonWidget extends StatelessWidget {
         config.buttonConfig?.contentPadding ??
         config.contentPadding ??
         const EdgeInsets.all(12);
-    return DecoratedBox(
+    final Widget decorated = DecoratedBox(
       decoration: ShapeDecoration(
-        color: Colors.transparent,
+        // ShapeDecoration forbids color + gradient together.
+        color: gradient != null ? null : Colors.transparent,
+        gradient: gradient,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(resolvedRadius)),
         ),
@@ -126,11 +137,15 @@ class ElevatedButtonWidget extends StatelessWidget {
           radius: resolvedRadius,
           labelColor: getTextColor(typeValue, context, color: labelColor),
           borderColor: getBorderColor(typeValue, context, color: borderColor),
-          background: getBackgroundColor(
-            typeValue,
-            context,
-            color: backgroundColor,
-          ),
+          // When a gradient is supplied, keep the button surface transparent so
+          // the gradient behind it shows through.
+          background: gradient != null
+              ? Colors.transparent
+              : getBackgroundColor(
+                  typeValue,
+                  context,
+                  color: backgroundColor,
+                ),
           context: context,
           smallSize: smallSize ?? false,
           opacity: opacity,
@@ -152,5 +167,7 @@ class ElevatedButtonWidget extends StatelessWidget {
             : child,
       ),
     );
+    if (semanticsIdentifier == null) return decorated;
+    return Semantics(identifier: semanticsIdentifier, child: decorated);
   }
 }

@@ -1,6 +1,6 @@
 part of 'main_text_field.dart';
 
-class _NumberMainTextField extends MainTextField {
+class _NumberMainTextField extends WBTextField {
   const _NumberMainTextField({
     required super.maxWidth,
     required super.title,
@@ -51,7 +51,7 @@ class _NumberMainTextField extends MainTextField {
 class _NumberMainTextFieldState extends State<_NumberMainTextField> {
   @override
   Widget build(BuildContext context) {
-    return MainTextField(
+    return WBTextField(
       titleStyle: widget.titleStyle,
       maxWidth: widget.maxWidth,
       title: widget.title ?? SmartLocalize.number,

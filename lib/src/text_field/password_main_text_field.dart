@@ -1,6 +1,6 @@
 part of 'main_text_field.dart';
 
-class _PasswordMainTextField extends MainTextField {
+class _PasswordMainTextField extends WBTextField {
   const _PasswordMainTextField({
     required super.maxWidth,
     required super.title,
@@ -53,7 +53,7 @@ class _PasswordMainTextFieldState extends State<_PasswordMainTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return MainTextField(
+    return WBTextField(
       autofillHints: [AutofillHints.password],
       maxWidth: widget.maxWidth,
       title: widget.title ?? SmartLocalize.password,

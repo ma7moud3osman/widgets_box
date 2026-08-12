@@ -2,75 +2,74 @@ import 'package:flutter/material.dart';
 
 import '../widgets/main_button.dart';
 
-// Colors derive from the app's [ColorScheme] (the modern source that
-// `ThemeData.primaryColor` mirrors) so buttons follow the application theme
-// instead of hard-coded `Colors.white`/`primaryColor`. Callers can still pass
-// an explicit color to override per instance.
+/// Button color resolvers.
+///
+/// Colors derive from the app's [ColorScheme] (the modern source that
+/// `ThemeData.primaryColor` mirrors) so buttons follow the application theme
+/// instead of hard-coded `Colors.white`/`primaryColor`. An explicit [color]
+/// always wins, letting callers override per instance.
+///
+/// The four resolvers share one shape (explicit override → per-type value), so
+/// each delegates to [_resolve] to keep the branching in one place (DRY) while
+/// each function keeps a single, clearly-named responsibility (SRP).
+Color _resolve(Color? override, Color Function() ifUnset) =>
+    override ?? ifUnset();
 
-getBackgroundColor(
-  MainButtonEnum mainButtonEnum,
+Color getBackgroundColor(
+  WBButtonType type,
   BuildContext context, {
   required Color? color,
 }) {
-  if (color != null) return color;
-  final scheme = Theme.of(context).colorScheme;
-  switch (mainButtonEnum) {
-    case MainButtonEnum.primary:
-      return scheme.primary;
-    case MainButtonEnum.secondary:
-      return Theme.of(context).scaffoldBackgroundColor;
-    case MainButtonEnum.tertiary:
-      return Colors.transparent;
-  }
+  final theme = Theme.of(context);
+  return _resolve(color, () {
+    switch (type) {
+      case WBButtonType.primary:
+        return theme.colorScheme.primary;
+      case WBButtonType.secondary:
+        return theme.scaffoldBackgroundColor;
+      case WBButtonType.tertiary:
+        return Colors.transparent;
+    }
+  });
 }
 
-getBorderColor(
-  MainButtonEnum mainButtonEnum,
+Color getBorderColor(
+  WBButtonType type,
   BuildContext context, {
   required Color? color,
 }) {
-  if (color != null) return color;
   final scheme = Theme.of(context).colorScheme;
-  switch (mainButtonEnum) {
-    case MainButtonEnum.primary:
-      return scheme.primary;
-    case MainButtonEnum.secondary:
-      return scheme.primary;
-    case MainButtonEnum.tertiary:
-      return Colors.transparent;
-  }
+  return _resolve(color, () {
+    switch (type) {
+      case WBButtonType.primary:
+      case WBButtonType.secondary:
+        return scheme.primary;
+      case WBButtonType.tertiary:
+        return Colors.transparent;
+    }
+  });
 }
 
-getTextColor(
-  MainButtonEnum mainButtonEnum,
+Color getTextColor(
+  WBButtonType type,
   BuildContext context, {
   required Color? color,
 }) {
-  if (color != null) return color;
   final scheme = Theme.of(context).colorScheme;
-  switch (mainButtonEnum) {
-    case MainButtonEnum.primary:
-      return scheme.onPrimary;
-    case MainButtonEnum.secondary:
-      return scheme.primary;
-    case MainButtonEnum.tertiary:
-      return scheme.primary;
-  }
+  return _resolve(color, () {
+    switch (type) {
+      case WBButtonType.primary:
+        return scheme.onPrimary;
+      case WBButtonType.secondary:
+      case WBButtonType.tertiary:
+        return scheme.primary;
+    }
+  });
 }
 
-getLoadingColor(
-  MainButtonEnum mainButtonEnum,
+Color getLoadingColor(
+  WBButtonType type,
   BuildContext context, {
   required Color? color,
-}) {
-  if (color != null) return color;
-  final scheme = Theme.of(context).colorScheme;
-  switch (mainButtonEnum) {
-    case MainButtonEnum.primary:
-      return scheme.onPrimary;
-    case MainButtonEnum.secondary:
-      return scheme.primary;
-    case MainButtonEnum.tertiary:
-      return scheme.primary;
-  }
-}
+}) =>
+    getTextColor(type, context, color: color);

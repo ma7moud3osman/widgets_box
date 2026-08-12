@@ -7,16 +7,16 @@ import 'text_widget.dart';
 
 part 'main_icon_button.dart';
 
-/// MainButtonEnum - primary - secondary - tertiary
-enum MainButtonEnum { primary, secondary, tertiary }
+/// WBButtonType - primary - secondary - tertiary
+enum WBButtonType { primary, secondary, tertiary }
 
-class MainButton extends ElevatedButtonWidget {
+class WBButton extends ElevatedButtonWidget {
   final String label;
   final TextStyle? labelStyle;
   final double? fontSize;
   final Color? disableLabelColor;
 
-  const MainButton({
+  const WBButton({
     required this.label,
     this.labelStyle,
     this.fontSize,
@@ -39,9 +39,11 @@ class MainButton extends ElevatedButtonWidget {
     super.type,
     super.labelColor,
     super.child,
+    super.gradient,
+    super.semanticsIdentifier,
   });
 
-  factory MainButton.icon({
+  factory WBButton.icon({
     required String label,
     required IconType iconType,
     double? width,
@@ -67,7 +69,7 @@ class MainButton extends ElevatedButtonWidget {
     bool? showShadow,
     bool? isDisable,
     Color? borderColor,
-    MainButtonEnum? type,
+    WBButtonType? type,
     Color labelColor = Colors.white,
     Color? disableLabelColor,
     Color? iconColor,
@@ -108,7 +110,7 @@ class MainButton extends ElevatedButtonWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typeValue = type ?? MainButtonEnum.primary;
+    final typeValue = type ?? WBButtonType.primary;
     return ElevatedButtonWidget(
       ///  width  => default value is double.infinity
       maxWidth: maxWidth,
@@ -127,6 +129,8 @@ class MainButton extends ElevatedButtonWidget {
       smallSize: smallSize,
       opacity: opacity,
       type: type,
+      gradient: gradient,
+      semanticsIdentifier: semanticsIdentifier,
       onPressed: onPressed,
       child:
           child ??
@@ -165,7 +169,7 @@ class MainButton extends ElevatedButtonWidget {
 ///
 /// showShadow => default value is false
 ///
-/// type => default value is MainButtonEnum.primary
+/// type => default value is WBButtonType.primary
 ///
 /// labelColor => default value is Colors.white
 ///

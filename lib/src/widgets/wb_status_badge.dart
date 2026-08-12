@@ -5,7 +5,7 @@ import 'smart_status_widget.dart';
 
 /// A status pill driven by a backend-supplied color, folding the
 /// `ClientStatusBadge` / `RepStockBadge` patterns the apps hand-roll on top of
-/// [StatusWidget].
+/// [WBStatus].
 ///
 /// The color is resolved, in order, from an explicit [color], then a
 /// [colorValue] string that may be a hex code (`#2E7D4F`, `2e7d4f`) or a
@@ -34,10 +34,22 @@ class WBStatusBadge extends StatelessWidget {
   /// When true and [label] is empty, renders nothing.
   final bool hideWhenEmpty;
 
+  /// Shows a filled fill AND a same-hue border together (a common chip look).
+  final bool showBorder;
+
+  /// Shows a small leading status dot in the resolved color.
+  final bool leadingDot;
+
   final double? height;
   final double radius;
+
+  /// Custom (possibly asymmetric) corner radius; wins over [radius].
+  final BorderRadiusGeometry? borderRadius;
   final TextStyle? style;
   final EdgeInsetsGeometry? padding;
+
+  /// Makes the whole badge tappable (e.g. opens a details sheet).
+  final VoidCallback? onTap;
 
   /// Fill opacity applied to the resolved color for the translucent background.
   final double fillOpacity;
@@ -50,10 +62,14 @@ class WBStatusBadge extends StatelessWidget {
     this.icon,
     this.outlined = false,
     this.hideWhenEmpty = false,
+    this.showBorder = false,
+    this.leadingDot = false,
     this.height,
     this.radius = 8,
+    this.borderRadius,
     this.style,
     this.padding,
+    this.onTap,
     this.fillOpacity = 0.12,
   });
 
@@ -63,17 +79,24 @@ class WBStatusBadge extends StatelessWidget {
       return const SizedBox.shrink();
     }
     final resolved = color ?? resolveStatusColor(context, colorValue);
-    return StatusWidget(
+    Widget badge = WBStatus(
       text: label,
       height: height ?? 26,
       radius: radius,
+      borderRadius: borderRadius,
       textColor: resolved,
       backgroundColor: outlined ? null : resolved.withValues(alpha: fillOpacity),
       outlined: outlined,
+      borderColor: showBorder ? resolved : null,
+      leadingDot: leadingDot,
       icon: icon,
       style: style,
       padding: padding,
     );
+    if (onTap != null) {
+      badge = GestureDetector(onTap: onTap, child: badge);
+    }
+    return badge;
   }
 
   /// Resolves a backend color string to a [Color]. Falls back to the theme

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SmartRefreshIndicator extends StatelessWidget {
+class WBRefreshIndicator extends StatelessWidget {
   /// The widget to display as the main content when the [RefreshIndicator] is not active.
   final Widget child;
 
@@ -15,7 +15,7 @@ class SmartRefreshIndicator extends StatelessWidget {
   /// The background disc color behind the spinner.
   final Color? backgroundColor;
 
-  const SmartRefreshIndicator({
+  const WBRefreshIndicator({
     super.key,
     required this.child,
     required this.onRefresh,

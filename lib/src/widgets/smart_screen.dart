@@ -6,7 +6,7 @@ import 'smart_loading_widget.dart';
 
 enum LoadingType { skeleton, indicator }
 
-class SmartScreen extends StatelessWidget {
+class WBScreen extends StatelessWidget {
   /// Indicates whether the data is currently being loaded.
   final bool isLoading;
 
@@ -39,7 +39,7 @@ class SmartScreen extends StatelessWidget {
   final Color? skeletonColor;
   final double textBorderRadius;
 
-  const SmartScreen({
+  const WBScreen({
     super.key,
     required this.builder,
     this.isLoading = false,
@@ -59,7 +59,7 @@ class SmartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return getWidget(
+    return _wbStateWidget(
       isLoading: isLoading,
       loadingType: loadingType,
       isEmpty: isEmpty,
@@ -83,9 +83,9 @@ class SmartScreen extends StatelessWidget {
 /// or displaying data.
 ///
 /// - If [isLoading] is true, it returns a [Skeletonizer] wrapping the [skeletonWidget] or [builder].
-/// - If [isEmpty] is true, it returns the [emptyWidget] if provided, or the default [SmartEmptyWidget].
+/// - If [isEmpty] is true, it returns the [emptyWidget] if provided, or the default [WBEmptyState].
 /// - Otherwise, it returns the main content wrapped with a [RefreshIndicator] for pull-to-refresh functionality.
-Widget getWidget({
+Widget _wbStateWidget({
   required BuildContext context,
   required bool isLoading,
   required LoadingType loadingType,
@@ -106,7 +106,7 @@ Widget getWidget({
     if (loadingWidget != null) return loadingWidget;
 
     if (loadingType == LoadingType.indicator) {
-      return const SmartLoadingWidget();
+      return const WBLoading();
     }
 
     // Displays a loading widget when data is being fetched.
@@ -123,7 +123,7 @@ Widget getWidget({
   } else if (isEmpty) {
     // Displays an empty state widget if there is no data.
     return emptyWidget ??
-        SmartEmptyWidget(title: message, type: emptyWidgetType);
+        WBEmptyState(title: message, type: emptyWidgetType);
   } else {
     // Displays the main content wrapped with a pull-to-refresh functionality.
     return RefreshIndicator(

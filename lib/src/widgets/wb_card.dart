@@ -69,6 +69,15 @@ class WBCard extends StatelessWidget {
   /// Cross-axis alignment of the leading/content row. Defaults to center.
   final CrossAxisAlignment crossAxisAlignment;
 
+  /// Fixed width; when null the card sizes to its content.
+  final double? width;
+
+  /// Fixed height; when null the card sizes to its content.
+  final double? height;
+
+  /// Alignment of [child] within a fixed-size card.
+  final AlignmentGeometry? alignment;
+
   const WBCard({
     super.key,
     required this.child,
@@ -82,6 +91,9 @@ class WBCard extends StatelessWidget {
     this.leading,
     this.leadingSpacing = 12,
     this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.width,
+    this.height,
+    this.alignment,
   });
 
   /// A media card: a sized [image] leading slot next to [child], with an
@@ -141,9 +153,13 @@ class WBCard extends StatelessWidget {
             ],
           );
 
-    Widget card = DecoratedBox(
+    Widget card = Container(
+      width: width,
+      height: height,
+      alignment: alignment,
       decoration: _decoration(theme, cardConfig, resolvedColor, borderRadius),
-      child: Padding(padding: resolvedPadding, child: content),
+      padding: resolvedPadding,
+      child: content,
     );
 
     if (onTap != null) {

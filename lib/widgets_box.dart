@@ -1,8 +1,13 @@
 library;
 
-export 'package:lottie/lottie.dart';
+// NOTE: this barrel intentionally does NOT re-export third-party packages
+// (e.g. Lottie). Re-exporting a dependency leaks its entire public surface —
+// and transitively `dart:ui` names like `TextDirection` — into every consumer,
+// forcing them to `hide` symbols to avoid ambiguous-import clashes with Flutter
+// itself. Consumers that need Lottie import `package:lottie/lottie.dart`
+// directly.
 
-// WB-prefixed aliases for the existing widgets (discoverability).
+// Backwards-compatible aliases for the pre-WB class names.
 export 'src/wb_aliases.dart';
 
 // app info

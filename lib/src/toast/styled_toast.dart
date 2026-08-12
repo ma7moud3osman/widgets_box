@@ -10,7 +10,7 @@ import 'styled_toast_manage.dart';
 import 'styled_toast_theme.dart';
 
 /// Current context of the page which uses the toast.
-BuildContext? currentContext;
+BuildContext? wbToastContext;
 
 /// Default toast duration for showing.
 const _defaultDuration = Duration(milliseconds: 2300);
@@ -67,7 +67,7 @@ ToastFuture showToast(
   final bool? isIgnoring,
   final OnInitStateCallback? onInitState,
 }) {
-  context ??= currentContext;
+  context ??= wbToastContext;
   assert(context != null);
 
   final toastTheme = StyledToastTheme.maybeOf(context!);
@@ -162,7 +162,7 @@ ToastFuture showToastWidget({
   OverlayEntry entry;
   ToastFuture future;
 
-  context ??= currentContext;
+  context ??= wbToastContext;
   assert(context != null);
 
   final toastTheme = StyledToastTheme.maybeOf(context!);
@@ -410,7 +410,7 @@ class _StyledToastState extends State<StyledToast> {
       initialEntries: <OverlayEntry>[
         OverlayEntry(
           builder: (context) {
-            currentContext = context;
+            wbToastContext = context;
             return widget.child;
           },
         ),

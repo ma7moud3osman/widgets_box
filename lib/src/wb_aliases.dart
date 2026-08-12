@@ -10,21 +10,35 @@ import 'widgets/smart_tag_widget.dart';
 import 'widgets/smart_user_image.dart';
 import 'widgets/smart_welcome_widget.dart';
 
-/// `WB`-prefixed aliases for the package's existing public widgets.
+/// Backwards-compatible aliases for the pre-`WB` class names.
 ///
-/// These make every `widgets_box` component discoverable by typing `WB` in the
-/// IDE, and give the package one consistent naming face, without a breaking
-/// rename: the original names keep working, and these resolve to the exact same
-/// classes (a `WBButton(...)` is a `MainButton(...)`).
-typedef WBButton = MainButton;
-typedef WBTextField = MainTextField;
-typedef WBScreen = SmartScreen;
-typedef WBStatus = StatusWidget;
-typedef WBStatusPositioned = SmartStatusWidget;
-typedef WBTag = SmartTagWidget;
-typedef WBEmpty = SmartEmptyWidget;
-typedef WBLoading = SmartLoadingWidget;
-typedef WBImage = SmartCachedImages;
-typedef WBUserImage = SmartUserImage;
-typedef WBWelcome = SmartWelcomeWidget;
-typedef WBRefreshIndicator = SmartRefreshIndicator;
+/// The public widgets were rebranded with a consistent `WB` prefix. These
+/// deprecated typedefs keep existing consumer code compiling while it migrates
+/// to the new names; they resolve to the exact same classes and will be removed
+/// in a future major version.
+@Deprecated('Use WBButton')
+typedef MainButton = WBButton;
+@Deprecated('Use WBButtonType')
+typedef MainButtonEnum = WBButtonType;
+@Deprecated('Use WBTextField')
+typedef MainTextField = WBTextField;
+@Deprecated('Use WBScreen')
+typedef SmartScreen = WBScreen;
+@Deprecated('Use WBEmptyState')
+typedef SmartEmptyWidget = WBEmptyState;
+@Deprecated('Use WBLoading')
+typedef SmartLoadingWidget = WBLoading;
+@Deprecated('Use WBCachedImage')
+typedef SmartCachedImages = WBCachedImage;
+@Deprecated('Use WBUserImage')
+typedef SmartUserImage = WBUserImage;
+@Deprecated('Use WBWelcome')
+typedef SmartWelcomeWidget = WBWelcome;
+@Deprecated('Use WBRefreshIndicator')
+typedef SmartRefreshIndicator = WBRefreshIndicator;
+@Deprecated('Use WBPositionedStatus')
+typedef SmartStatusWidget = WBPositionedStatus;
+@Deprecated('Use WBStatus')
+typedef StatusWidget = WBStatus;
+@Deprecated('Use WBTag')
+typedef SmartTagWidget = WBTag;

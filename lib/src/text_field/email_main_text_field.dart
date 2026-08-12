@@ -1,6 +1,6 @@
 part of 'main_text_field.dart';
 
-class _EmailMainTextField extends MainTextField {
+class _EmailMainTextField extends WBTextField {
   final bool hideTitle;
 
   const _EmailMainTextField({
@@ -56,7 +56,7 @@ class _EmailMainTextField extends MainTextField {
 class _EmailMainTextFieldState extends State<_EmailMainTextField> {
   @override
   Widget build(BuildContext context) {
-    return MainTextField(
+    return WBTextField(
       autofillHints: [AutofillHints.username],
       keyboardType: TextInputType.emailAddress,
       maxWidth: widget.maxWidth,

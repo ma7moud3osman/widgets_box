@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Styling defaults for [MainButton] and friends, resolved through
+/// Styling defaults for [WBButton] and friends, resolved through
 /// [WidgetsBoxConfigProvider]. Every field is optional; a null field falls back
 /// to [WidgetsBoxConfig] and then to the widget's built-in default.
 @immutable

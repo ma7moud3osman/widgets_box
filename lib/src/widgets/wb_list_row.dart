@@ -24,6 +24,20 @@ class WBListRow extends StatelessWidget {
   final TextStyle? titleStyle;
   final TextStyle? subtitleStyle;
 
+  /// Highlights the row as the selected/active one (tinted background + bold
+  /// title).
+  final bool selected;
+
+  /// Draws the row inside its own bordered surface (some pickers/tiles are
+  /// standalone cards rather than list items).
+  final bool bordered;
+
+  /// Background fill for the row's own surface.
+  final Color? backgroundColor;
+
+  /// Corner radius when [bordered] or [backgroundColor] is used.
+  final double borderRadius;
+
   const WBListRow({
     super.key,
     this.leading,
@@ -35,6 +49,10 @@ class WBListRow extends StatelessWidget {
     this.destructive = false,
     this.titleStyle,
     this.subtitleStyle,
+    this.selected = false,
+    this.bordered = false,
+    this.backgroundColor,
+    this.borderRadius = 12,
   });
 
   /// A navigation row with an auto, RTL-aware chevron as the trailing widget.
@@ -104,7 +122,9 @@ class WBListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final titleColor = destructive ? theme.colorScheme.error : null;
+    final titleColor = destructive
+        ? theme.colorScheme.error
+        : (selected ? theme.colorScheme.primary : null);
 
     final row = Padding(
       padding:
@@ -124,6 +144,7 @@ class WBListRow extends StatelessWidget {
                   title,
                   style: (titleStyle ?? theme.textTheme.titleMedium)?.copyWith(
                     color: titleColor,
+                    fontWeight: selected ? FontWeight.bold : null,
                   ),
                 ),
                 if (subtitle != null) ...[
@@ -147,8 +168,41 @@ class WBListRow extends StatelessWidget {
       ),
     );
 
-    if (onTap == null) return row;
-    return InkWell(onTap: onTap, child: row);
+    // Optional self-drawn surface (bordered card / selected highlight / fill).
+    final bool hasSurface =
+        bordered || selected || backgroundColor != null;
+    final radius = BorderRadius.circular(borderRadius);
+
+    Widget content = row;
+    if (hasSurface) {
+      content = DecoratedBox(
+        decoration: BoxDecoration(
+          color: backgroundColor ??
+              (selected
+                  ? theme.colorScheme.primary.withValues(alpha: 0.08)
+                  : null),
+          borderRadius: radius,
+          border: bordered || selected
+              ? Border.all(
+                  color: selected
+                      ? theme.colorScheme.primary
+                      : theme.dividerColor,
+                )
+              : null,
+        ),
+        child: row,
+      );
+    }
+
+    if (onTap == null) return content;
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: hasSurface ? radius : null,
+        child: content,
+      ),
+    );
   }
 }
 

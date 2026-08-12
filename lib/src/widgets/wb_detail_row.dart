@@ -39,6 +39,21 @@ class WBDetailRow extends StatelessWidget {
   final TextStyle? labelStyle;
   final TextStyle? valueStyle;
 
+  /// Makes the value tappable (e.g. call/copy a phone number).
+  final VoidCallback? onTap;
+
+  /// Forces the value to render left-to-right regardless of locale — required
+  /// for phone numbers so the leading `+`/country code never reorders.
+  final bool isPhone;
+
+  /// An icon shown immediately before the value.
+  final IconData? valueIcon;
+
+  /// Horizontal-layout flex weights for label vs value. Default 1:1-ish
+  /// (label expands, value flexes).
+  final int? labelFlex;
+  final int? valueFlex;
+
   const WBDetailRow({
     super.key,
     required this.label,
@@ -51,6 +66,11 @@ class WBDetailRow extends StatelessWidget {
     this.padding,
     this.labelStyle,
     this.valueStyle,
+    this.onTap,
+    this.isPhone = false,
+    this.valueIcon,
+    this.labelFlex,
+    this.valueFlex,
   });
 
   /// Convenience for money rows: formats [value] with [format] (defaults to a
@@ -104,7 +124,7 @@ class WBDetailRow extends StatelessWidget {
           ),
     );
 
-    final Widget valuePart = valueWidget ??
+    Widget valueText = valueWidget ??
         Text(
           value ?? '',
           textAlign:
@@ -115,6 +135,23 @@ class WBDetailRow extends StatelessWidget {
                 fontWeight: weight,
               ),
         );
+    if (valueIcon != null) {
+      valueText = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(valueIcon, size: 16, color: valueColor ?? theme.hintColor),
+          const SizedBox(width: 4),
+          Flexible(child: valueText),
+        ],
+      );
+    }
+    if (isPhone) {
+      valueText = Directionality(textDirection: TextDirection.ltr, child: valueText);
+    }
+    Widget valuePart = valueText;
+    if (onTap != null) {
+      valuePart = GestureDetector(onTap: onTap, child: valuePart);
+    }
 
     final content = axis == WBDetailAxis.horizontal
         ? Row(
@@ -124,9 +161,11 @@ class WBDetailRow extends StatelessWidget {
                 Icon(leadingIcon, size: 16, color: theme.hintColor),
                 const SizedBox(width: 6),
               ],
-              Expanded(child: labelWidget),
+              Expanded(flex: labelFlex ?? 1, child: labelWidget),
               const SizedBox(width: 12),
-              Flexible(child: valuePart),
+              (valueFlex != null)
+                  ? Expanded(flex: valueFlex!, child: valuePart)
+                  : Flexible(child: valuePart),
             ],
           )
         : Column(

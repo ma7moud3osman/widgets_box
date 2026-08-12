@@ -1,6 +1,6 @@
 part of 'main_text_field.dart';
 
-class _PhoneMainTextField extends MainTextField {
+class _PhoneMainTextField extends WBTextField {
   final void Function(CountryCode)? onChangedCountryCode;
   final List<String> favoriteCountryCode;
   final String? countryCode;
@@ -59,7 +59,7 @@ class _PhoneMainTextField extends MainTextField {
 class _PhoneMainTextFieldState extends State<_PhoneMainTextField> {
   @override
   Widget build(BuildContext context) {
-    return MainTextField(
+    return WBTextField(
       autofillHints: [AutofillHints.username],
       maxWidth: widget.maxWidth,
       title: widget.hideTitle ? null : (widget.title ?? SmartLocalize.phone),

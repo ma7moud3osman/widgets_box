@@ -17,7 +17,7 @@ void main() {
       await tester.pumpWidget(
         _host(const WBStatusBadge(label: '   ', hideWhenEmpty: true)),
       );
-      expect(find.byType(StatusWidget), findsNothing);
+      expect(find.byType(WBStatus), findsNothing);
     });
 
     testWidgets('resolves a hex color value without throwing', (tester) async {
@@ -109,12 +109,12 @@ void main() {
     });
   });
 
-  group('SmartEmptyWidget', () {
+  group('WBEmptyState', () {
     testWidgets('shows a retry button that calls onRetry', (tester) async {
       var retried = 0;
       await tester.pumpWidget(
         _host(
-          SmartEmptyWidget(
+          WBEmptyState(
             title: 'Nothing here',
             onRetry: () => retried++,
           ),

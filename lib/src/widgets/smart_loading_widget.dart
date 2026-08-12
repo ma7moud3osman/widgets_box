@@ -13,7 +13,7 @@ enum IndicatorType {
   lottie,
 }
 
-class SmartLoadingWidget extends StatelessWidget {
+class WBLoading extends StatelessWidget {
   /// Specifies the type of loading indicator to display.
   final IndicatorType loadingType;
 
@@ -21,7 +21,7 @@ class SmartLoadingWidget extends StatelessWidget {
   /// This is required when using [IndicatorType.gif] or [IndicatorType.lottie].
   final String? path;
 
-  const SmartLoadingWidget({
+  const WBLoading({
     super.key,
     this.loadingType = IndicatorType.defaultType,
     this.path,

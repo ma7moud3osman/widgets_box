@@ -29,6 +29,18 @@ class WBSectionHeader extends StatelessWidget {
 
   final EdgeInsetsGeometry? padding;
 
+  /// Optional leading widget before the title (e.g. an accent bar or icon).
+  final Widget? leading;
+
+  /// Appends a red required asterisk after the title.
+  final bool isRequired;
+
+  /// A small widget shown immediately after the title (e.g. a count badge).
+  final Widget? titleBadge;
+
+  /// Color of the [actionLabel] text. Defaults to the theme primary.
+  final Color? actionColor;
+
   const WBSectionHeader({
     super.key,
     required this.title,
@@ -40,6 +52,10 @@ class WBSectionHeader extends StatelessWidget {
     this.subtitleStyle,
     this.upperCase = false,
     this.padding,
+    this.leading,
+    this.isRequired = false,
+    this.titleBadge,
+    this.actionColor,
   });
 
   @override
@@ -56,7 +72,7 @@ class WBSectionHeader extends StatelessWidget {
           child: Text(
             actionLabel!,
             style: theme.textTheme.labelLarge?.copyWith(
-              color: theme.colorScheme.primary,
+              color: actionColor ?? theme.colorScheme.primary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -64,23 +80,47 @@ class WBSectionHeader extends StatelessWidget {
       );
     }
 
+    final titleText = Text(
+      upperCase ? title.toUpperCase() : title,
+      style: titleStyle ??
+          theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+    );
+    final Widget titleLine = (isRequired || titleBadge != null)
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: titleText),
+              if (isRequired)
+                Text(
+                  ' *',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: theme.colorScheme.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              if (titleBadge != null) ...[
+                const SizedBox(width: 8),
+                titleBadge!,
+              ],
+            ],
+          )
+        : titleText;
+
     return Padding(
       padding: padding ?? EdgeInsets.zero,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (leading != null) ...[
+            leading!,
+            const SizedBox(width: 8),
+          ],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  upperCase ? title.toUpperCase() : title,
-                  style: titleStyle ??
-                      theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
+                titleLine,
                 if (subtitle != null) ...[
                   const SizedBox(height: 2),
                   Text(

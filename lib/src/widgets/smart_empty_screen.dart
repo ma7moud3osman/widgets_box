@@ -14,7 +14,7 @@ enum EmptyType {
   text,
 }
 
-class SmartEmptyWidget extends StatelessWidget {
+class WBEmptyState extends StatelessWidget {
   /// The message to display in the empty state. Defaults to 'no_data_found' if not provided.
   final String? title;
   final String? subtitle;
@@ -50,7 +50,7 @@ class SmartEmptyWidget extends StatelessWidget {
   /// Label for the built-in retry button. Defaults to a localized "Retry".
   final String? retryLabel;
 
-  const SmartEmptyWidget({
+  const WBEmptyState({
     super.key,
     this.subtitle,
     this.title,

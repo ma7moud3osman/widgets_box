@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SmartTagWidget extends StatelessWidget {
+class WBTag extends StatelessWidget {
   final String? text;
   final Widget? child;
   final TextStyle? style;
   final Color? backgroundColor;
   final Color? textColor;
 
-  const SmartTagWidget({
+  const WBTag({
     super.key,
     this.text,
     this.style,

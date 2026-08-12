@@ -1,6 +1,6 @@
 part of 'main_text_field.dart';
 
-class _ConfirmPasswordMainTextField extends MainTextField {
+class _ConfirmPasswordMainTextField extends WBTextField {
   final String? passwordValue;
 
   const _ConfirmPasswordMainTextField({
@@ -60,7 +60,7 @@ class _ConfirmPasswordMainTextFieldState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MainTextField(
+        WBTextField(
           maxWidth: widget.maxWidth,
           title: widget.title ?? SmartLocalize.confirmPassword,
           onTap: widget.onTap,
