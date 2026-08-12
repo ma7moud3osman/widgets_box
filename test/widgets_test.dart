@@ -58,6 +58,25 @@ void main() {
       expect(find.text('save'), findsOneWidget);
       expect(find.byIcon(Icons.save), findsOneWidget);
     });
+
+    testWidgets('icon factory inserts a default gap between icon and label',
+        (tester) async {
+      await tester.pumpWidget(host(
+        WBButton.icon(
+          label: 'next',
+          iconType: IconType.icon,
+          icon: Icons.arrow_forward,
+          onPressed: () {},
+        ),
+      ));
+      // The icon/label row must contain a non-zero spacer by default so callers
+      // don't have to pass spaceBetweenIconAndText on every use.
+      final gap = tester.widgetList<SizedBox>(find.byType(SizedBox)).where(
+            (b) => b.width == 8 && b.height == null,
+          );
+      expect(gap, isNotEmpty,
+          reason: 'expected a default 8px gap between icon and label');
+    });
   });
 
   group('WBTextField', () {

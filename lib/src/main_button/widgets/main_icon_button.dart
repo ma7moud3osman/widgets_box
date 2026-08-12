@@ -94,7 +94,7 @@ class _MainIconButton extends WBButton {
                             height: 0.0,
                           ),
                     ),
-                    SizedBox(width: spaceBetween),
+                    SizedBox(width: spaceBetween ?? 8),
                     ImageWidget(
                       iconType: iconType,
                       imagePath: imagePath,
@@ -117,7 +117,7 @@ class _MainIconButton extends WBButton {
                           iconColor ??
                           Theme.of(context).textTheme.labelMedium!.color,
                     ),
-                    SizedBox(width: spaceBetween),
+                    SizedBox(width: spaceBetween ?? 8),
                     TextWidget(
                       label: label,
                       labelStyle:
