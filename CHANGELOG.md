@@ -1,5 +1,6 @@
 ## 0.2.0
 
+* docs: visual brand identity — pub.dev cover, component gallery and styling-precedence images; rewritten README with `WB`-name usage examples and pub.dev `screenshots`.
 * **BREAKING (with migration):** public widgets renamed to a consistent `WB` prefix — `MainButton`→`WBButton`, `MainTextField`→`WBTextField`, `SmartScreen`→`WBScreen`, `SmartEmptyWidget`→`WBEmptyState`, `SmartLoadingWidget`→`WBLoading`, `SmartCachedImages`→`WBCachedImage`, `SmartUserImage`→`WBUserImage`, `SmartWelcomeWidget`→`WBWelcome`, `SmartRefreshIndicator`→`WBRefreshIndicator`, `SmartStatusWidget`→`WBPositionedStatus`, `StatusWidget`→`WBStatus`, `SmartTagWidget`→`WBTag`, `MainButtonEnum`→`WBButtonType`. `@Deprecated` typedef aliases keep old names compiling.
 * **BREAKING:** removed the `export 'package:lottie/lottie.dart'` re-export — it leaked third-party + `dart:ui` names (e.g. `TextDirection`) into consumers and forced `hide` clauses. Import Lottie directly if needed.
 * fix: privatized/namespaced leaked generic top-level symbols (`getWidget`, the legacy debouncer `timer`, the toast `currentContext`) to avoid consumer collisions.

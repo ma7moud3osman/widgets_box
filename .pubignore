@@ -1,0 +1,18 @@
+# NOTE: when a .pubignore exists, pub uses it INSTEAD of .gitignore for
+# publishing — so every build/tooling artifact must be re-declared here.
+
+# Build & tooling artifacts (large; never publish)
+build/
+**/build/
+.dart_tool/
+**/.dart_tool/
+coverage/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.log
+.DS_Store
+
+# Raw brand source art — kept in the repo, excluded from the published archive.
+# The README/screenshots ship the composed cover/gallery/styling images instead.
+doc/wb_logo.png
+doc/wb_logo_glow.png
