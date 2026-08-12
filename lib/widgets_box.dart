@@ -23,12 +23,15 @@ export 'src/environment/environment_switcher.dart';
 export 'src/extension/context_extension.dart';
 export 'src/extension/initials_extension.dart';
 export 'src/extension/string_extension.dart';
+export 'src/extension/theme_mode_extension.dart';
+export 'src/extension/widget_extension.dart';
 // functions
 export 'src/functions/date_function/date_format.dart';
 export 'src/functions/date_function/get_date.dart';
 export 'src/functions/debouncer.dart';
 export 'src/functions/hex_color.dart';
 export 'src/functions/separated_widget.dart';
+export 'src/functions/wb_validators.dart';
 export 'src/functions/show_toast_function.dart';
 export 'src/main_button/widgets/image_widget.dart';
 export 'src/main_button/widgets/main_button.dart';
