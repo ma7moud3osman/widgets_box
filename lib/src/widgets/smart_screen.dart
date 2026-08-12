@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../widgets_box.dart';
+import 'smart_empty_screen.dart';
+import 'smart_loading_widget.dart';
 
 enum LoadingType { skeleton, indicator }
 

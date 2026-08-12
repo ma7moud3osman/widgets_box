@@ -1,6 +1,31 @@
-# SmartUIComponents Widget
+# widgets_box
 
-The `widgets_box` A Flutter package for efficient UI state management, handling loading, empty views, content display, caching, and pull-to-refresh with customizable widgets.
+`widgets_box` is an internal Flutter UI framework: a set of theme-aware, configurable components (screens, cards, list rows, status badges, section headers, detail rows, buttons, fields, toasts) plus environment/versioning utilities shared across our apps.
+
+## Component families
+
+- **Layout & content:** `WBCard` (+`.media`), `WBSectionHeader`, `WBDetailRow` (+`.money`), `WBListRow` (`.menu`/`.toggle`/`.picker`).
+- **Status & media:** `WBStatusBadge` (hex/semantic color resolver), `StatusWidget` (now with icon + outline), `SmartCachedImages` (network/SVG/asset/file + fade), `SmartUserImage`.
+- **State screens:** `SmartScreen`, `SmartEmptyWidget` (retry + `.toSliver()`), `SmartLoadingWidget`.
+- **Inputs & actions:** `MainTextField` (+ `keyboardType`/`onFieldSubmitted`/`autofocus`/decimal `.number`), `MainButton` (theme-derived colors), `WBToast`.
+- **App infrastructure:** `WBEnvironmentSwitcher`/`WBEnvironmentManager` (debug backend switcher), `WBAppRestarter` (in-process restart), `WBPoweredBy`, `WBAppVersion`.
+
+Every existing widget is aliased under a `WB`-prefixed name for IDE discoverability (`WBButton`, `WBTextField`, `WBScreen`, `WBStatus`, `WBTag`, `WBEmpty`, `WBLoading`, `WBImage`, …) — type `WB` and autocomplete surfaces the whole library. The original names keep working.
+
+## Styling precedence
+
+Visual styling resolves in this order, so an app themes once and overrides locally where needed:
+
+```
+Flutter Theme (ThemeData / ColorScheme / InputDecorationTheme / …)
+        ↓
+Package config (WidgetsBoxConfig via WidgetsBoxConfigProvider:
+        ButtonConfig · TextFieldConfig · ToastConfig · WBCardConfig)
+        ↓
+Local widget override (constructor parameters)
+```
+
+Wrap your app in a `WidgetsBoxConfigProvider` to set package-wide defaults (card radius/padding, field borders, toast colors, …); everything left unset falls back to the Flutter `Theme`.
 
 <p>
     <a href="https://github.com/abdelrahmanghanem/widgets_box"><img src="https://img.shields.io/github/stars/abdelrahmanghanem/widgets_box?style=social" alt="Repo stars"></a>

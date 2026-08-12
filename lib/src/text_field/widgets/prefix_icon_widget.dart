@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../widgets_box.dart';
+import '../../config/main_config.dart';
 
 class PrefixIconWidget extends StatelessWidget {
   final IconData? icon;

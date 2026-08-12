@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../widgets_box.dart';
+import '../../config/main_config.dart';
+import 'main_button.dart';
 import '../decoration/button_style_class.dart';
 import '../functions/get_button_color.dart';
 import 'circular_indicator_widget.dart';

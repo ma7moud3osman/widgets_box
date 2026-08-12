@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_box/widgets_box.dart';
+
+import '../extension/context_extension.dart';
+import '../extension/initials_extension.dart';
+import 'smart_cached_images.dart';
 
 class SmartUserImage extends StatelessWidget {
   final String? photo;

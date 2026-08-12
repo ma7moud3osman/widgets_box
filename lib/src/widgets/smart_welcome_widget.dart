@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smart_localize/smart_localize.dart';
 
-import '../../widgets_box.dart';
+import '../extension/context_extension.dart';
+import '../functions/date_function/date_format.dart';
+import '../functions/date_function/get_date.dart';
+import 'smart_user_image.dart';
 
 class SmartWelcomeWidget extends StatelessWidget {
   final String firstName;

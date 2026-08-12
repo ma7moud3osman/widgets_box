@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:widgets_box/widgets_box.dart';
+
+import '../extension/context_extension.dart';
 
 class SmartStatusWidget extends StatelessWidget {
   final double height;
@@ -39,6 +40,7 @@ class SmartStatusWidget extends StatelessWidget {
             backgroundColor: backgroundColor,
             textColor: textColor,
             text: text,
+            style: style,
             padding: padding,
           ),
         ),
@@ -57,6 +59,13 @@ class StatusWidget extends StatelessWidget {
   final TextStyle? style;
   final EdgeInsetsGeometry? padding;
 
+  /// Optional leading icon, tinted to match the label color.
+  final IconData? icon;
+
+  /// When true, renders as an outlined pill (transparent fill + colored
+  /// border) instead of the filled/translucent default.
+  final bool outlined;
+
   const StatusWidget({
     super.key,
     required this.text,
@@ -67,26 +76,48 @@ class StatusWidget extends StatelessWidget {
     this.radius = 12,
     this.style,
     this.padding,
+    this.icon,
+    this.outlined = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final resolvedRadius =
+        borderRadius ?? BorderRadius.all(Radius.circular(radius));
+    final label = Text(
+      text,
+      overflow: TextOverflow.ellipsis,
+      style:
+          style?.copyWith(color: textColor) ??
+          context.bodySmall?.copyWith(color: textColor),
+    );
+
     return Container(
       height: height,
       padding:
           padding ?? const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: backgroundColor ?? textColor?.withValues(alpha: 0.05),
-        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)),
+        color: outlined
+            ? Colors.transparent
+            : (backgroundColor ?? textColor?.withValues(alpha: 0.05)),
+        borderRadius: resolvedRadius,
+        border: outlined
+            ? Border.all(
+                color: textColor ?? Theme.of(context).colorScheme.outline,
+              )
+            : null,
       ),
       alignment: Alignment.center,
-      child: Text(
-        text,
-        overflow: TextOverflow.ellipsis,
-        style:
-            style?.copyWith(color: textColor) ??
-            context.bodySmall?.copyWith(color: textColor),
-      ),
+      child: icon == null
+          ? label
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 14, color: textColor),
+                const SizedBox(width: 4),
+                Flexible(child: label),
+              ],
+            ),
     );
   }
 }

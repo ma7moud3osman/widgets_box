@@ -2,6 +2,9 @@ library;
 
 export 'package:lottie/lottie.dart';
 
+// WB-prefixed aliases for the existing widgets (discoverability).
+export 'src/wb_aliases.dart';
+
 // app info
 export 'src/app_info/app_version_widget.dart';
 export 'src/app_info/powered_by_widget.dart';
@@ -36,12 +39,17 @@ export 'src/toast/styled_toast.dart';
 export 'src/toast/styled_toast_enum.dart';
 export 'src/toast/styled_toast_manage.dart';
 export 'src/toast/styled_toast_theme.dart';
+export 'src/toast/wb_toast.dart';
 export 'src/widgets/smart_cached_images.dart';
 export 'src/widgets/smart_empty_screen.dart';
 export 'src/widgets/smart_loading_widget.dart';
 export 'src/widgets/smart_refresh_indicator.dart';
 // widgets
 export 'src/widgets/wb_card.dart';
+export 'src/widgets/wb_detail_row.dart';
+export 'src/widgets/wb_list_row.dart';
+export 'src/widgets/wb_section_header.dart';
+export 'src/widgets/wb_status_badge.dart';
 export 'src/widgets/smart_screen.dart';
 export 'src/widgets/smart_status_widget.dart';
 export 'src/widgets/smart_tag_widget.dart';

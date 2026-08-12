@@ -1,5 +1,12 @@
 ## 0.2.0
 
+* feat: new promoted components — **WBCard** (+`.media`), **WBListRow** (`.menu`/`.toggle`/`.picker`), **WBStatusBadge** (hex/semantic color resolver), **WBSectionHeader**, **WBDetailRow** (+`.money`) — mined from patterns every consuming app re-implements.
+* feat: `WBCardConfig` token config; extended `StatusWidget` with `icon` + `outlined`.
+* feat: improved existing widgets in place — `SmartCachedImages` (SVG + asset + local-file + fade, no darken-on-transparent), `SmartEmptyWidget` (retry action + `.toSliver()`, fixed subtitle/SVG detection).
+* feat: **WBToast** — theme/`ColorScheme`-aware toast reading `ToastConfig` (fixes fixed-350 overflow + maxLines), no name collision with app toast helpers.
+* feat: `MainButton` colors now derive from `ColorScheme` (`primary`/`onPrimary`/`secondary`) instead of hardcoded `primaryColor`/`Colors.white`.
+* feat: `WB`-prefixed aliases for existing widgets (`WBButton`, `WBTextField`, `WBScreen`, `WBStatus`, `WBTag`, `WBEmpty`, `WBLoading`, `WBImage`, …) for IDE discoverability; original names unchanged.
+* chore: replaced 8 self-referential barrel imports with specific relative imports; README rewrite (name, component families, styling precedence).
 * feat: generic debug **environment switcher** (`WBEnvironmentManager`, `WBEnvironmentConfig`, `WBAppEnvironment`, `WBEnvironmentSwitcher`) — config-driven, debug-only, release-safe.
 * feat: `WBAppRestarter` — dependency-free in-process app remount (replaces `flutter_phoenix`).
 * feat: `WBPoweredBy` and `WBAppVersion` (app version/build + Shorebird patch) reusable widgets.

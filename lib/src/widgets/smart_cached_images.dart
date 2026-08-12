@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../widgets_box.dart';
+import 'smart_loading_widget.dart';
 
 /// A widget that displays a cached network image with optional placeholders,
 /// error handling, and image filtering.
@@ -60,6 +63,9 @@ class SmartCachedImages extends StatelessWidget {
   ///
   /// [imageUrl] is required. Optional parameters allow customization of
   /// the image's appearance and behavior.
+  /// Fade-in duration for the loaded network image.
+  final Duration fadeInDuration;
+
   const SmartCachedImages({
     super.key,
     required this.imageUrl,
@@ -73,24 +79,86 @@ class SmartCachedImages extends StatelessWidget {
     this.height,
     this.width,
     this.borderRadius,
+    this.fadeInDuration = const Duration(milliseconds: 250),
   });
+
+  bool get _isSvg => imageUrl.toLowerCase().split('?').first.endsWith('.svg');
+  bool get _isNetwork =>
+      imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+  bool get _isAsset => imageUrl.startsWith('assets/');
 
   @override
   Widget build(BuildContext context) {
+    Widget image = _resolveImage();
+
+    // Only wrap in a color filter when an actual tint is requested — a
+    // transparent darken is a no-op layer and (worse) surprises callers who
+    // pass a light tint expecting a wash.
+    final tint = color ?? filterColor;
+    if (tint != Colors.transparent) {
+      image = ColorFiltered(
+        colorFilter: ColorFilter.mode(tint, BlendMode.darken),
+        child: image,
+      );
+    }
+
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)),
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(color ?? filterColor, BlendMode.darken),
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
+      child: image,
+    );
+  }
+
+  /// Resolves the right image widget from the source: network SVG, asset SVG,
+  /// asset raster, local file, or a cached network image.
+  Widget _resolveImage() {
+    if (_isSvg) {
+      if (_isNetwork) {
+        return SvgPicture.network(
+          imageUrl,
           width: width,
           height: height,
           fit: fit,
-          httpHeaders: httpHeaders,
-          placeholder: (context, url) => placeholder,
-          errorWidget: (context, url, error) => errorWidget,
-        ),
-      ),
+          placeholderBuilder: (_) => placeholder,
+        );
+      }
+      return SvgPicture.asset(
+        imageUrl,
+        width: width,
+        height: height,
+        fit: fit,
+      );
+    }
+
+    if (_isAsset) {
+      return Image.asset(
+        imageUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (_, __, ___) => errorWidget,
+      );
+    }
+
+    if (!_isNetwork) {
+      // A filesystem path (e.g. a freshly picked image).
+      return Image.file(
+        File(imageUrl),
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (_, __, ___) => errorWidget,
+      );
+    }
+
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      width: width,
+      height: height,
+      fit: fit,
+      httpHeaders: httpHeaders,
+      fadeInDuration: fadeInDuration,
+      placeholder: (context, url) => placeholder,
+      errorWidget: (context, url, error) => errorWidget,
     );
   }
 }
