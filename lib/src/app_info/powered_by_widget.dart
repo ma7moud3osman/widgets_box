@@ -92,33 +92,44 @@ class WBPoweredBy extends StatelessWidget {
               height: glyphSize,
               color: brandColorResolved,
               colorBlendMode: BlendMode.srcIn,
+              // Degrade gracefully if the asset can't be resolved (e.g. a
+              // hot-restart before a cold rebuild bundles it) instead of
+              // throwing and leaving a broken-image box.
+              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
             ))
         : null;
 
+    // FittedBox(scaleDown) guarantees the signature never overflows its parent,
+    // regardless of the width the host layout gives it (Center, Row, a narrow
+    // bottom bar, …). It keeps the natural size when there is room and only
+    // scales down when space is tight.
     final content = Directionality(
       textDirection: TextDirection.ltr,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        spacing: spacing,
-        children: [
-          // Brand line is English-only by design; never localized.
-          Text.rich(
-            TextSpan(
-              style: baseStyle,
-              children: [
-                TextSpan(text: '$label '),
-                TextSpan(
-                  text: brand,
-                  style: baseStyle?.copyWith(
-                    color: brandColorResolved,
-                    fontWeight: FontWeight.w700,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: spacing,
+          children: [
+            // Brand line is English-only by design; never localized.
+            Text.rich(
+              TextSpan(
+                style: baseStyle,
+                children: [
+                  TextSpan(text: '$label '),
+                  TextSpan(
+                    text: brand,
+                    style: baseStyle?.copyWith(
+                      color: brandColorResolved,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          if (glyph != null) glyph,
-        ],
+            if (glyph != null) glyph,
+          ],
+        ),
       ),
     );
 
