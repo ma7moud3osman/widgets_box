@@ -336,15 +336,18 @@ void main() {
       );
     });
 
-    testWidgets('powered-by renders brand + label', (tester) async {
+    testWidgets('powered-by renders brand + label inline', (tester) async {
       await tester.pumpWidget(host(const WBPoweredBy()));
-      expect(find.text('GAIT'), findsOneWidget);
-      expect(find.text('Powered by'), findsOneWidget);
+      expect(find.textContaining('Powered by'), findsOneWidget);
+      expect(find.textContaining('GAIT'), findsOneWidget);
     });
 
     testWidgets('powered-by non-tappable when url is null', (tester) async {
-      await tester.pumpWidget(host(const WBPoweredBy(url: null, brand: 'ACME')));
-      expect(find.text('ACME'), findsOneWidget);
+      await tester.pumpWidget(host(
+        const WBPoweredBy(url: null, brand: 'ACME', showLogo: false),
+      ));
+      expect(find.textContaining('ACME'), findsOneWidget);
+      expect(find.byType(InkWell), findsNothing);
     });
 
     testWidgets('app version shows v + build', (tester) async {

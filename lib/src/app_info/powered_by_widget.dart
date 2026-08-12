@@ -1,43 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// A compact vendor signature — a muted "Powered by" caption, the bold brand
-/// word, and the brand glyph — rendered inline and left-to-right, tappable to
-/// open [url].
+/// A compact "Powered by GAIT" vendor signature — the muted caption and bold
+/// wordmark rendered inline (`Powered by GAIT`) followed by the brand glyph,
+/// always left-to-right, tappable to open [url].
 ///
-/// Everything is configurable so any project can reuse it with its own brand:
-/// the [label]/[brand] text, the [url], the colors, the text styles, and the
-/// [logo] glyph. By default it shows the bundled GAIT monogram tinted to the
-/// brand color; pass [showLogo] `false` to hide it or [logo] to swap it.
+/// This is a faithful, reusable port of the footer every app hand-rolls: the
+/// caption in a muted grey, the wordmark in the brand navy (lightened on dark
+/// backgrounds), and the monogram tinted to match. Everything is configurable
+/// ([label]/[brand] text, [url], [style], [brandColor], [logo], [showLogo],
+/// [spacing], [padding]) so any project can rebrand it, but the defaults
+/// reproduce the GAIT signature exactly.
 ///
-/// The brand word and caption are intentionally not routed through any
-/// localization — this is a fixed vendor signature, not translated copy, and it
-/// always renders LTR regardless of the app's locale.
+/// The caption and wordmark are intentionally English-only — this is a fixed
+/// vendor signature, not translated copy — and it always renders LTR.
 class WBPoweredBy extends StatelessWidget {
   /// The muted caption before the brand. Defaults to `'Powered by'`.
   final String label;
 
-  /// The brand word rendered prominently and used as the tap target.
+  /// The brand wordmark, rendered bold and used as the tap target.
   final String brand;
 
   /// Opened in an external browser when tapped. When null the signature is
   /// shown but not tappable.
   final String? url;
 
-  /// Color of the [label] caption. Defaults to a muted theme color.
-  final Color? labelColor;
+  /// Base text style for the whole signature. Defaults to `bodySmall` in a
+  /// muted grey; the brand word overrides the color/weight on top of this.
+  final TextStyle? style;
 
   /// Color of the [brand] word and the default logo tint. Defaults to the GAIT
   /// brand navy on light backgrounds and a lightened navy on dark ones.
   final Color? brandColor;
 
-  /// Overrides the [label] text style (color still falls back to [labelColor]).
-  final TextStyle? labelStyle;
-
-  /// Overrides the [brand] text style (color still falls back to [brandColor]).
-  final TextStyle? brandStyle;
-
-  /// Whether to show the brand glyph beside the wordmark. Defaults to true.
+  /// Whether to show the brand glyph after the wordmark. Defaults to true.
   final bool showLogo;
 
   /// A custom glyph widget. When null (and [showLogo] is true) the bundled GAIT
@@ -47,22 +43,20 @@ class WBPoweredBy extends StatelessWidget {
   /// Outer padding around the signature. Defaults to none.
   final EdgeInsetsGeometry? padding;
 
-  /// Gap between the caption, wordmark and glyph. Defaults to 4.
+  /// Gap between the wordmark and the glyph. Defaults to 2.
   final double spacing;
 
   const WBPoweredBy({
     super.key,
     this.label = 'Powered by',
     this.brand = 'GAIT',
-    this.url = 'https://gaitco.com',
-    this.labelColor,
+    this.url = 'https://gaitco.com/',
+    this.style,
     this.brandColor,
-    this.labelStyle,
-    this.brandStyle,
     this.showLogo = true,
     this.logo,
     this.padding,
-    this.spacing = 4,
+    this.spacing = 2,
   });
 
   /// GAIT brand navy (sampled from the logo), with a lightened variant so the
@@ -82,19 +76,12 @@ class WBPoweredBy extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final resolvedBrandColor =
+    final brandColorResolved =
         brandColor ?? (isDark ? _gaitNavyOnDark : _gaitNavy);
 
-    final resolvedLabelStyle = (labelStyle ?? theme.textTheme.bodySmall)
-        ?.copyWith(color: labelColor ?? theme.hintColor);
-    final resolvedBrandStyle =
-        (brandStyle ?? theme.textTheme.bodySmall)?.copyWith(
-      color: resolvedBrandColor,
-      fontWeight: FontWeight.w700,
-    );
-
-    final double glyphSize =
-        (resolvedBrandStyle?.fontSize ?? resolvedLabelStyle?.fontSize ?? 12) + 2;
+    final baseStyle = style ??
+        theme.textTheme.bodySmall?.copyWith(color: Colors.grey.shade600);
+    final double glyphSize = (baseStyle?.fontSize ?? 10) + 2;
 
     final glyph = showLogo
         ? (logo ??
@@ -103,7 +90,7 @@ class WBPoweredBy extends StatelessWidget {
               package: 'widgets_box',
               width: glyphSize,
               height: glyphSize,
-              color: resolvedBrandColor,
+              color: brandColorResolved,
               colorBlendMode: BlendMode.srcIn,
             ))
         : null;
@@ -112,28 +99,33 @@ class WBPoweredBy extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: spacing,
         children: [
-          Text(label, style: resolvedLabelStyle),
-          SizedBox(width: spacing),
-          Text(brand, style: resolvedBrandStyle),
-          if (glyph != null) ...[
-            SizedBox(width: spacing),
-            glyph,
-          ],
+          // Brand line is English-only by design; never localized.
+          Text.rich(
+            TextSpan(
+              style: baseStyle,
+              children: [
+                TextSpan(text: '$label '),
+                TextSpan(
+                  text: brand,
+                  style: baseStyle?.copyWith(
+                    color: brandColorResolved,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (glyph != null) glyph,
         ],
       ),
     );
 
-    final padded = padding != null
-        ? Padding(padding: padding!, child: content)
-        : content;
+    final padded =
+        padding != null ? Padding(padding: padding!, child: content) : content;
 
     if (url == null) return padded;
-    return InkWell(
-      onTap: _open,
-      borderRadius: BorderRadius.circular(8),
-      child: padded,
-    );
+    return InkWell(onTap: _open, child: padded);
   }
 }
