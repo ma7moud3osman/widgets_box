@@ -78,6 +78,13 @@ class WBCard extends StatelessWidget {
   /// Alignment of [child] within a fixed-size card.
   final AlignmentGeometry? alignment;
 
+  /// Clip behavior for the card surface. Defaults to [Clip.antiAlias] so
+  /// children (e.g. images) are clipped to the rounded corners.
+  final Clip clipBehavior;
+
+  /// Extra size constraints for the card.
+  final BoxConstraints? constraints;
+
   const WBCard({
     super.key,
     required this.child,
@@ -94,6 +101,8 @@ class WBCard extends StatelessWidget {
     this.width,
     this.height,
     this.alignment,
+    this.clipBehavior = Clip.antiAlias,
+    this.constraints,
   });
 
   /// A media card: a sized [image] leading slot next to [child], with an
@@ -157,6 +166,8 @@ class WBCard extends StatelessWidget {
       width: width,
       height: height,
       alignment: alignment,
+      constraints: constraints,
+      clipBehavior: clipBehavior,
       decoration: _decoration(theme, cardConfig, resolvedColor, borderRadius),
       padding: resolvedPadding,
       child: content,

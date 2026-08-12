@@ -155,6 +155,21 @@ class WBTextField extends StatefulWidget {
   /// Accessibility / UI-test identifier applied to the whole field.
   final String? semanticsIdentifier;
 
+  // --- Additional TextFormField pass-throughs (full Flutter capability) ---
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
+  final Brightness? keyboardAppearance;
+  final ScrollController? scrollController;
+  final EdgeInsets scrollPadding;
+  final bool expands;
+  final bool? showCursor;
+  final double cursorWidth;
+  final Radius? cursorRadius;
+  final MouseCursor? mouseCursor;
+  final bool autocorrect;
+  final bool enableSuggestions;
+  final String? restorationId;
+  final InputCounterWidgetBuilder? buildCounter;
+
   const WBTextField({
     this.filled,
     this.fillColor,
@@ -208,6 +223,19 @@ class WBTextField extends StatefulWidget {
     this.onTapOutside,
     this.titleTrailing,
     this.semanticsIdentifier,
+    this.contextMenuBuilder,
+    this.keyboardAppearance,
+    this.scrollController,
+    this.scrollPadding = const EdgeInsets.all(20),
+    this.expands = false,
+    this.showCursor,
+    this.cursorWidth = 2.0,
+    this.cursorRadius,
+    this.mouseCursor,
+    this.autocorrect = true,
+    this.enableSuggestions = true,
+    this.restorationId,
+    this.buildCounter,
   });
 
   factory WBTextField.email({
@@ -745,6 +773,21 @@ class _MainTextFieldState extends State<WBTextField> {
               textInputAction: widget.textInputAction,
               // Node that manages the focus state of the field.
               focusNode: widget.focusNode,
+
+              // Full-capability pass-throughs to the underlying TextFormField.
+              contextMenuBuilder: widget.contextMenuBuilder,
+              keyboardAppearance: widget.keyboardAppearance,
+              scrollController: widget.scrollController,
+              scrollPadding: widget.scrollPadding,
+              expands: widget.expands,
+              showCursor: widget.showCursor,
+              cursorWidth: widget.cursorWidth,
+              cursorRadius: widget.cursorRadius,
+              mouseCursor: widget.mouseCursor,
+              autocorrect: widget.autocorrect,
+              enableSuggestions: widget.enableSuggestions,
+              restorationId: widget.restorationId,
+              buildCounter: widget.buildCounter,
 
               obscureText: widget.obscureText ?? false,
               // Character used to obscure text, default is '*'.

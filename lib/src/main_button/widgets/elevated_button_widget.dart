@@ -64,6 +64,15 @@ class ElevatedButtonWidget extends StatelessWidget {
   /// Accessibility / UI-test identifier for the button.
   final String? semanticsIdentifier;
 
+  /// Called on a long press.
+  final void Function()? onLongPress;
+
+  /// Focus node for the button.
+  final FocusNode? focusNode;
+
+  /// Whether the button grabs focus on first build.
+  final bool autofocus;
+
   const ElevatedButtonWidget({
     super.key,
     this.width,
@@ -87,6 +96,9 @@ class ElevatedButtonWidget extends StatelessWidget {
     this.type,
     this.gradient,
     this.semanticsIdentifier,
+    this.onLongPress,
+    this.focusNode,
+    this.autofocus = false,
   });
 
   @override
@@ -156,6 +168,11 @@ class ElevatedButtonWidget extends StatelessWidget {
         onPressed: (isLoading ?? false) || (isDisable ?? false)
             ? null
             : onPressed,
+        onLongPress: (isLoading ?? false) || (isDisable ?? false)
+            ? null
+            : onLongPress,
+        focusNode: focusNode,
+        autofocus: autofocus,
         child: (isLoading ?? false)
             ? SizedBox(
                 width: (smallSize ?? false) ? 60 : null,

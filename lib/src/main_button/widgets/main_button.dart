@@ -41,6 +41,9 @@ class WBButton extends ElevatedButtonWidget {
     super.child,
     super.gradient,
     super.semanticsIdentifier,
+    super.onLongPress,
+    super.focusNode,
+    super.autofocus,
   });
 
   factory WBButton.icon({
@@ -131,6 +134,9 @@ class WBButton extends ElevatedButtonWidget {
       type: type,
       gradient: gradient,
       semanticsIdentifier: semanticsIdentifier,
+      onLongPress: onLongPress,
+      focusNode: focusNode,
+      autofocus: autofocus,
       onPressed: onPressed,
       child:
           child ??

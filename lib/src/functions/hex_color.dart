@@ -21,6 +21,9 @@ class HexColor extends Color {
     if (hexColor.length == 6) {
       hexColor = "FF$hexColor";
     }
+    // After normalization a valid color is exactly 8 hex chars (AARRGGBB).
+    // Any other length is malformed → safe opaque-white fallback.
+    if (hexColor.length != 8) return 0xFFFFFFFF;
     return int.tryParse(hexColor, radix: 16) ?? 0xFFFFFFFF;
   }
 
