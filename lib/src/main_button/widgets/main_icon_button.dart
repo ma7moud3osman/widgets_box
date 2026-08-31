@@ -54,6 +54,9 @@ class _MainIconButton extends WBButton {
 
   @override
   Widget build(BuildContext context) {
+    // Disabled when explicitly flagged OR when there is no handler, so the label
+    // switches to a legible muted colour instead of the invisible enabled one.
+    final isDisabled = (isDisable ?? false) || onPressed == null;
     return ElevatedButtonWidget(
       ///  maximum width  => default value is 370
       maxWidth: maxWidth,
@@ -86,8 +89,8 @@ class _MainIconButton extends WBButton {
                       labelStyle:
                           labelStyle ??
                           Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: (isDisable ?? false)
-                                ? disableLabelColor
+                            color: isDisabled
+                                ? (disableLabelColor ?? Colors.grey.shade600)
                                 : labelColor,
                             fontWeight: FontWeight.w600,
                             fontSize: fontSize,
@@ -123,8 +126,8 @@ class _MainIconButton extends WBButton {
                       labelStyle:
                           labelStyle ??
                           Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: (isDisable ?? false)
-                                ? disableLabelColor
+                            color: isDisabled
+                                ? (disableLabelColor ?? Colors.grey.shade600)
                                 : labelColor,
                             fontWeight: FontWeight.w600,
                             fontSize: fontSize,

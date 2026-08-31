@@ -114,6 +114,11 @@ class WBButton extends ElevatedButtonWidget {
   @override
   Widget build(BuildContext context) {
     final typeValue = type ?? WBButtonType.primary;
+    // A button with no [onPressed] handler is disabled even when [isDisable] was
+    // not explicitly set, so the label must adopt the disabled colour too —
+    // otherwise it keeps the enabled (often white) colour and disappears against
+    // the disabled surface.
+    final isDisabled = (isDisable ?? false) || onPressed == null;
     return ElevatedButtonWidget(
       ///  width  => default value is double.infinity
       maxWidth: maxWidth,
@@ -145,8 +150,10 @@ class WBButton extends ElevatedButtonWidget {
             labelStyle:
                 labelStyle ??
                 Theme.of(context).textTheme.labelMedium!.copyWith(
-                  color: (isDisable ?? false)
-                      ? (disableLabelColor ?? Colors.white)
+                  color: isDisabled
+                      // A legible muted grey by default (readable on the light
+                      // disabled surface) instead of the invisible white.
+                      ? (disableLabelColor ?? Colors.grey.shade600)
                       : getTextColor(typeValue, context, color: labelColor),
                   fontWeight: FontWeight.w600,
                   fontSize: fontSize,
